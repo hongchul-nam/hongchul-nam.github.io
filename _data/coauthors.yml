@@ -1,19 +1,19 @@
 "jberner":
-  - firstname: ['J.', 'J', 'Julius']
-    lastname: ['Berner']
+  - firstname: ["J.", "J", "Julius"]
+    lastname: ["Berner"]
     url: https://jberner.info/
 
-'omutlu':
-  - firstname: ['O.', 'O', 'Onur']
-    lastname: ['Mutlu']
+"omutlu":
+  - firstname: ["O.", "O", "Onur"]
+    lastname: ["Mutlu"]
     url: https://people.inf.ethz.ch/omutlu/
 
-'kkannel':
-  - firstname: ['K.', 'K', 'Konstantinos']
-    lastname: ['Kanellopoulos']
+"kkannel":
+  - firstname: ["K.", "K", "Konstantinos"]
+    lastname: ["Kanellopoulos"]
     url: https://konkanello.github.io/
 
-'aanand':
-  - firstname: ['A.', 'A', 'Anima', 'Animashree']
-    lastname: ['Anandkumar']
+"aanand":
+  - firstname: ["A.", "A", "Anima", "Animashree"]
+    lastname: ["Anandkumar"]
     url: http://tensorlab.cms.caltech.edu/users/anima/
