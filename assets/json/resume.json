@@ -1,7 +1,7 @@
 {
   "basics": {
-    "name": "Albert Einstein",
-    "label": "Scientist",
+    "name": "Hong Chul Nam",
+    "label": "AI Researcher",
     "image": "",
     "email": "albert@einstein.de",
     "phone": "(912) 123-4567",
@@ -17,8 +17,8 @@
     "profiles": [
       {
         "network": "Twitter",
-        "username": "AlbertEinstein",
-        "url": "https://twitter.com/AlbertEinstein"
+        "username": "HongChulNam",
+        "url": "https://x.com/HongChulNam"
       }
     ]
   },
