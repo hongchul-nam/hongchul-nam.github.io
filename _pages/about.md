@@ -2,24 +2,23 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Motto. Etc.
+subtitle: <a href='https://ethz.ch/en.html'></a>. ETH Zurich
 
 profile:
   align: right
   image: prof_pic.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
-    <p>555 your office number</p>
-    <p>123 your address street</p>
-    <p>Your City, State 12345</p>
+    <p>i.am.hongchulnam@gmail.com</p>
 
 news: true # includes a list of news items
 selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 ---
 
-Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](http://reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
+I am a Master's student at ETH Zurich majoring in electrical engineering. I am a visiting researcher at Anima's lab at Caltech. Previously, I worked in [Alsemy](https://www.alsemy.com/), [CSEM](https://www.csem.ch/en/), [Learning & Adaptive Systems Group](https://las.inf.ethz.ch/) under Prof. Andreas Krause at ETH Zurich and [SAFARI Group](https://safari.ethz.ch/) under Prof. Onur Mutlu at ETH Zurich.
 
-Put your address / P.O. box / other info right below your picture. You can also disable any of these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
+My current research focuses on **neural PDE solvers** and **operator learning** with applications in solving partial differential equations, modeling semiconductor devices and weather forecasting, with examples in using stochastic methods in combination with deep learning to **solve high-dimensional Poisson equations** as well as developing an unsupervised, function-level anomaly detection method using neural operators for **detecting erronous transistor device simulations**. While intersted in proposing new machine learning algorithms, I am also intersted in different applications with experience in modeling and optimizing reliability of transistor devices, modeling thermal behaviors of transistors, improving weather forecasting models using function-level self-supervised learning and accelerating page table translation.
 
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](https://fontawesome.com/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+I have had luckily wide exposures to diverse areas including (chronological order) neuroscience, robotics, chip design, computer architecture, semiconductor physics and deep learning. Due to the wide spectrum, I am generally interested in multi-disciplinary areas such as computational electronics + deep learning, Systems4AI, and AI4EDA.
+
