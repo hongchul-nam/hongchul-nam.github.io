@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-FlowSim is accepted to SISPAD 2023!
+Victima is accepted to MICRO 2023!

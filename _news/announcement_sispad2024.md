@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Neural Walk-on-Spheres is accepted to ICML 2024!
+FuncAnoDe is accepted to SISPAD 2024!
