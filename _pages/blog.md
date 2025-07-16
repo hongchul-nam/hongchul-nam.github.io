@@ -8,4 +8,4 @@ description: >
   A collection of blog posts organized by topics and time order.
 ---
 
-{% include blog.liquid %} 
+{% include blog.liquid %}
