@@ -19,9 +19,9 @@
     <div class="col-md-6">
       <select class="form-select" id="topic-filter">
         <option value="">All Topics</option>
-        {% assign sorted_posts = site.posts | where_exp: "post", "post.hidden != true" | map: "tags" | compact | uniq | sort %}
+        {% assign sorted_posts = site.posts | where_exp: 'post', 'post.hidden != true' | map: 'tags' | compact | uniq | sort %}
         {% for tag in sorted_posts %}
-          {% if tag != nil and tag != "" %}
+          {% if tag != null and tag != '' %}
             <option value="{{ tag }}">{{ tag | capitalize }}</option>
           {% endif %}
         {% endfor %}
@@ -30,9 +30,17 @@
     <div class="col-md-6">
       <select class="form-select" id="year-filter">
         <option value="">All Years</option>
-        {% assign sorted_posts = site.posts | where_exp: "post", "post.hidden != true" | map: "date" | compact | map: "year" | uniq | sort | reverse %}
+        {% assign sorted_posts = site.posts
+          | where_exp: 'post', 'post.hidden != true'
+          | map: 'date'
+          | compact
+          | map: 'year'
+          | uniq
+          | sort
+          | reverse
+        %}
         {% for year in sorted_posts %}
-          {% if year != nil and year != "" %}
+          {% if year != null and year != '' %}
             <option value="{{ year }}">{{ year }}</option>
           {% endif %}
         {% endfor %}
@@ -43,7 +51,7 @@
   <!-- All Posts View -->
   <div id="all-posts-view" class="view-section">
     <div class="row">
-      {% assign sorted_posts = site.posts | where_exp: "post", "post.hidden != true" | sort: 'date' | reverse %}
+      {% assign sorted_posts = site.posts | where_exp: 'post', 'post.hidden != true' | sort: 'date' | reverse %}
       {% for post in sorted_posts %}
         <div
           class="col-lg-6 col-xl-4 mb-4 post-item"
@@ -80,9 +88,9 @@
 
   <!-- Topics View -->
   <div id="topics-view" class="view-section" style="display: none;">
-    {% assign sorted_posts = site.posts | where_exp: "post", "post.hidden != true" | map: "tags" | compact | uniq | sort %}
+    {% assign sorted_posts = site.posts | where_exp: 'post', 'post.hidden != true' | map: 'tags' | compact | uniq | sort %}
     {% for tag in sorted_posts %}
-      {% if tag != nil and tag != "" %}
+      {% if tag != null and tag != '' %}
         <div class="topic-section mb-5">
           <h3 class="mb-3">{{ tag | capitalize }}</h3>
           <div class="row">
@@ -126,9 +134,9 @@
 
   <!-- Timeline View -->
   <div id="timeline-view" class="view-section" style="display: none;">
-    {% assign sorted_posts = site.posts | where_exp: "post", "post.hidden != true" | map: "date" | compact | map: "year" | uniq | sort | reverse %}
+    {% assign sorted_posts = site.posts | where_exp: 'post', 'post.hidden != true' | map: 'date' | compact | map: 'year' | uniq | sort | reverse %}
     {% for year in sorted_posts %}
-      {% if year != nil and year != "" %}
+      {% if year != null and year != '' %}
         <div class="timeline-section mb-5">
           <h3 class="mb-3">{{ year }}</h3>
           <div class="timeline">
