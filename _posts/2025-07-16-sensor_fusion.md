@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Sensor Fusion for VOC Sensor
-date: 2025-07-15 12:00:00
+date: 2025-07-16 12:00:00
 hidden: true
 description: A detailed derivation of MPPI
 tags: [Bayesian]
@@ -166,8 +166,7 @@ If the parameters are uncertain, marginalization over their distributions is req
 ---
 
 **Summary:**  
-This linear-Gaussian probabilistic model is a special case of the general sensor fusion framework, where each sensor's output is a 1D linear projection of the VOC concentration vector, but both the mean and variance are parameterized by functions of the intrinsic and extrinsic parameters ($b(\nu^{\mathrm{int}}, \nu^{\mathrm{ext}})$ and $a(\nu^{\mathrm{int}}, \nu^{\mathrm{ext}})$, respectively). The key inference target is the posterior $p(c \mid \nu^{\mathrm{int}}, \nu^{\mathrm{ext}}, a, b, s)$, which can be computed analytically or numerically depending on the structure of the variance and the parameter distributions.
-
+In this framework, the **inverse problem** is to estimate $c$ from $\mathbf{s}$ by maximizing the posterior $p(c \mid \mathbf{s}, \nu)$, where $\nu$ denotes all intrinsic and extrinsic parameters. This MAP approach is appropriate when we lack a strong prior for $c$ and want to focus on the information provided by the sensor signals and the forward model. The solution $\hat{c}_{\mathrm{MAP}}$ is the most probable concentration vector given the observed data and known (or estimated) parameters, and is the central object of inference in practical sensor fusion.
 
 
 ---
@@ -288,17 +287,3 @@ In the previous formulation, the neural networks $f_\mu$ and $f_\sigma$ have det
 
 **Summary:**  
 By making $f_\mu$ and $f_\sigma$ Bayesian neural networks, the sensor fusion model becomes fully probabilistic, quantifying uncertainty in both the sensor parameters and the learned sensor models themselves. This leads to more robust and calibrated uncertainty estimates in downstream inference and decision-making.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
