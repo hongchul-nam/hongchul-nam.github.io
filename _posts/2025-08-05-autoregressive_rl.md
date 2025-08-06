@@ -136,7 +136,7 @@ Where is the **policy** in this unified model, and how do we learn it?
 
 By introducing a *null token* for the next state, the policy is defined as the marginal over actions:
 $$
-\pi(a_t\|h_t) = P(a_t, s_{t+1} = \varnothing^S\|h_t)
+\pi(a_t \| h_t) = P(a_t, s_{t+1} = \varnothing^S \| h_t)
 $$
 where $\varnothing^S$ denotes the null token for the next state. This allows direct learning of the policy as a marginal of the joint model.
 
@@ -181,9 +181,11 @@ $$
   $$
   (a_{t+i}, s_{t+i+1}) \sim p_{\text{CFG+Q}}(a_{t+i}, s_{t+i+1} \mid h_{t+i})
   $$
+
   $$
   r_{t+i} = r_\psi(h_{t+i}, a_{t+i}, s_{t+i+1})
   $$
+  
   $$
   h_{t+i+1} = h_{t+i} \cup (a_{t+i}, s_{t+i+1})
   $$
@@ -220,7 +222,7 @@ In continuous action spaces, using $a = 0$ as the null action can cause ambiguit
 | Inverse Dynamics   | $P(a_t \| s_{t+1}, h_{t})$ |
 | Reward Model       | $P(r_t \| s_{t+1}, a_t, h_t)$|
 | Reward Function    | $r_\psi(h_t, a_t, s_{t+1})$ |
-| Policy             | $\pi(a_t\|h_t) \propto P(a_t, \varnothing^S \| h_t) \exp(\lambda \beta Q(h_t, a_t))$ |
+| Policy             | $\pi(a_t \| h_t) \propto P(a_t, \varnothing^S \| h_t) \exp(\lambda \beta Q(h_t, a_t))$ |
 
 ---
 
@@ -238,6 +240,7 @@ In continuous action spaces, using $a = 0$ as the null action can cause ambiguit
 - To extract a policy for acting, you can sample $a_t$ from the interpolated distribution 
 $$
 \pi(a_t|h_t) \propto P(a_t, \varnothing^S \| h_t) \exp(\lambda \beta Q(h_t, a_t))
-$$, or plan a sequence of optimal states and use the inverse dynamics model to map each $(h_t, s_{t+1}^*)$ to the corresponding action.**
+$$
+, or plan a sequence of optimal states and use the inverse dynamics model to map each $(h_t, s_{t+1}^*)$ to the corresponding action.
 
 ---
