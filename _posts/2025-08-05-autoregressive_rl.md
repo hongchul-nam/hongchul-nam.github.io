@@ -27,13 +27,13 @@ Let us define:
 #### **Forward Dynamics**
 
 Predicts the next state $s_{t+1}$ and reward $r_t$ given the full history $h_t$ and the next action $a_t$:
-- $P(s_{t+1} | h_t, a_t)$  
-- $P(r_t | h_t, a_t, s_{t+1})$
+- $P(s_{t+1} \| h_t, a_t)$  
+- $P(r_t \| h_t, a_t, s_{t+1})$
 
 #### **Inverse Dynamics: Why Learn It?**
 
 Predicts the action $a_t$ that caused the transition from $h_t$ to $s_{t+1}$:
-- $P(a_t | h_t, s_{t+1})$
+- $P(a_t \| h_t, s_{t+1})$
 
 **Benefits of learning inverse dynamics:**
 - **Imitation and Action Inference:** Enables inferring actions from observed transitions, crucial for imitation learning.
@@ -43,7 +43,7 @@ Predicts the action $a_t$ that caused the transition from $h_t$ to $s_{t+1}$:
 #### **Reward Model**
 
 Predicts the reward $r_t$ given the full history, the current action, and the next state:
-- $P(r_t | h_t, a_t, s_{t+1})$
+- $P(r_t\|h_t, a_t, s_{t+1})$
 
 ---
 
@@ -136,7 +136,7 @@ Where is the **policy** in this unified model, and how do we learn it?
 
 By introducing a *null token* for the next state, the policy is defined as the marginal over actions:
 $$
-\pi(a_t | h_t) = P(a_t, s_{t+1} = \varnothing^S | h_t)
+\pi(a_t\|h_t) = P(a_t, s_{t+1} = \varnothing^S\|h_t)
 $$
 where $\varnothing^S$ denotes the null token for the next state. This allows direct learning of the policy as a marginal of the joint model.
 
@@ -144,7 +144,7 @@ where $\varnothing^S$ denotes the null token for the next state. This allows dir
 
 To combine model-based and value-based RL, interpolate between the null-token conditional and Q-value guidance:
 $$
-\log \pi_{\text{interpolated}}(a_t | h_t) = \log P(a_t, s_{t+1} = \varnothing^S | h_t) + \lambda \beta Q(h_t, a_t)
+\log \pi_{\text{interpolated}}(a_t \| h_t) = \log P(a_t, s_{t+1} = \varnothing^S \| h_t) + \lambda \beta Q(h_t, a_t)
 $$
 where $\lambda \in [0, 1]$ controls the interpolation and $\beta$ is a temperature parameter.
 
@@ -154,7 +154,7 @@ where $\lambda \in [0, 1]$ controls the interpolation and $\beta$ is a temperatu
 
 **Gradient for policy interpolation:**
 $$
-\nabla_{a_t} \log \pi_{\text{interpolated}}(a_t | h_t) = \nabla_{a_t} \log p(a_t, \varnothing^S | h_t) + \lambda \beta \nabla_{a_t} Q(h_t, a_t)
+\nabla_{a_t} \log \pi_{\text{interpolated}}(a_t \| h_t) = \nabla_{a_t} \log p(a_t, \varnothing^S \| h_t) + \lambda \beta \nabla_{a_t} Q(h_t, a_t)
 $$
 
 #### **C. Policy via Planning and Inverse Dynamics**
@@ -218,9 +218,9 @@ In continuous action spaces, using $a = 0$ as the null action can cause ambiguit
 | ------------------ | ---------------------------- |
 | Forward Dynamics   | $P(s_{t+1} \| a_t, h_t)$ |
 | Inverse Dynamics   | $P(a_t \| s_{t+1}, h_{t})$ |
-| Reward Model       | $P(r_t \| s_{t+1}, a_t, h_t)$| 
+| Reward Model       | $P(r_t \| s_{t+1}, a_t, h_t)$|
 | Reward Function    | $r_\psi(h_t, a_t, s_{t+1})$ |
-| Policy             | $\pi(a_t\|h_t) \propto P(a_t, \varnothing^S\|h_t) \exp(\lambda \beta Q(h_t, a_t))$ |
+| Policy             | $\pi(a_t\|h_t) \propto P(a_t, \varnothing^S \| h_t) \exp(\lambda \beta Q(h_t, a_t))$ |
 
 ---
 
@@ -235,6 +235,9 @@ In continuous action spaces, using $a = 0$ as the null action can cause ambiguit
 - The null tokens ensure that marginals and conditionals are well-defined and separated for both state and action spaces.
 - The reward function $r_\psi$ can be learned jointly with the dynamics and policy models, and used for both real and imagined data.
 - This framework enables joint learning and inference of dynamics, inverse dynamics, reward functions, and value-guided action selection.
-- **To extract a policy for acting, you can sample $a_t$ from the interpolated distribution $\pi(a_t|h_t) \propto P(a_t, \varnothing^S|h_t) \exp(\lambda \beta Q(h_t, a_t))$, or plan a sequence of optimal states and use the inverse dynamics model to map each $(h_t, s_{t+1}^*)$ to the corresponding action.**
+- To extract a policy for acting, you can sample $a_t$ from the interpolated distribution 
+$$
+\pi(a_t|h_t) \propto P(a_t, \varnothing^S \| h_t) \exp(\lambda \beta Q(h_t, a_t))
+$$, or plan a sequence of optimal states and use the inverse dynamics model to map each $(h_t, s_{t+1}^*)$ to the corresponding action.**
 
 ---
