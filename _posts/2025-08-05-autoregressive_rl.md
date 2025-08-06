@@ -9,7 +9,7 @@ categories: [generative]
 ---
 
 
-## Mathematical Formulation of Forward, Inverse Dynamics, and Rewards in Autoregressive RL (Non-Markovian Setting)
+## Mathematical Formulation of Forward, Inverse Dynamics, Reward Models, and Reward Function Learning in Autoregressive RL (Non-Markovian Setting)
 
 In the **non-Markovian** setting, the next state, action, and reward may depend on the entire history, not just the current state and action. In **autoregressive RL**, the *sequence* of actions and states is modeled as an autoregressive process over time (not over state dimensions).
 
@@ -55,6 +55,45 @@ The **reward model** predicts the reward $r_t$ given the full history, the curre
 
 ---
 
+### 4. Reward Function Learning
+
+In many real-world RL problems, the reward function is not known a priori and must be learned from data. This is especially important in settings such as inverse reinforcement learning (IRL), preference learning, or when rewards are provided by human feedback.
+
+#### **Reward Function Parameterization**
+
+We can parameterize the reward function as $r_\psi(h_t, a_t, s_{t+1})$, where $\psi$ are learnable parameters (e.g., neural network weights). The reward model can be trained to fit observed rewards or inferred from preferences or demonstrations.
+
+#### **Learning the Reward Function**
+
+- **Supervised Reward Learning:**  
+  If ground-truth rewards $r_t$ are available, we can minimize a supervised loss:
+  $$
+  \mathcal{L}_{\text{reward}} = \mathbb{E}_{(h_t, a_t, s_{t+1}, r_t)} \left[ \ell_{\text{reward}}(r_\psi(h_t, a_t, s_{t+1}), r_t) \right]
+  $$
+  where $\ell_{\text{reward}}$ is typically mean squared error or negative log-likelihood.
+
+- **Preference-Based Reward Learning:**  
+  If only preferences between trajectories are available (e.g., from human feedback), we can use a pairwise loss:
+  $$
+  \mathcal{L}_{\text{pref}} = -\mathbb{E}_{(\tau^A, \tau^B, y)} \left[ y \log \sigma(R_\psi(\tau^A) - R_\psi(\tau^B)) + (1-y) \log \sigma(R_\psi(\tau^B) - R_\psi(\tau^A)) \right]
+  $$
+  where $R_\psi(\tau) = \sum_t r_\psi(h_t, a_t, s_{t+1})$ is the cumulative reward of trajectory $\tau$, $y$ is the preference label, and $\sigma$ is the sigmoid function.
+
+- **Inverse Reinforcement Learning (IRL):**  
+  In IRL, the reward function is learned such that the induced policy matches expert demonstrations. This can be formalized as maximizing the likelihood of expert trajectories under the induced policy, or minimizing a divergence between the expert and model distributions.
+
+#### **Integration with the Autoregressive Model**
+
+The learned reward function $r_\psi$ can be used in several ways:
+- As the target for the reward model $P(r_t | h_t, a_t, s_{t+1})$ (i.e., the model predicts $r_\psi$).
+- To guide policy learning, e.g., by using $r_\psi$ in Q-learning or policy gradients.
+- To generate synthetic rewards for imagined or counterfactual trajectories.
+
+**Summary:**  
+Reward function learning is a crucial component in modern RL pipelines, enabling learning from weak, noisy, or indirect supervision. In the autoregressive RL framework, the reward function can be flexibly learned and integrated into the joint generative process, supporting both model-based and model-free RL, as well as imitation and preference-based learning.
+
+---
+
 ### **Summary Table**
 
 | Model Type         | Non-Markovian Formulation |
@@ -62,6 +101,7 @@ The **reward model** predicts the reward $r_t$ given the full history, the curre
 | Forward Dynamics   | $P(s_{t+1} \| a_t, h_t)$ |
 | Inverse Dynamics   | $P(a_t \| s_{t+1}, h_{t})$ |
 | Reward Model       | $P(r_t \| s_{t+1}, a_t, h_t)$| 
+| Reward Function    | $r_\psi(h_t, a_t, s_{t+1})$ |
 
 ---
 
@@ -70,6 +110,7 @@ The **reward model** predicts the reward $r_t$ given the full history, the curre
 - The autoregressive property refers to the *temporal* sequence: each element (action, state, reward) is generated conditioned on the full preceding history.
 - In practice, $h_t$ is often encoded using recurrent neural networks or transformers to summarize the history efficiently.
 - This approach allows the dynamics and reward models to capture long-term dependencies and partial observability, which are not possible in Markovian models.
+- Reward function learning enables the agent to operate in environments where the reward is not directly observed or is provided via indirect signals.
 
 **Full trajectory factorization (autoregressive in time):**
 
@@ -185,6 +226,7 @@ $$
 - The **joint model** $p(a_t, s_{t+1} \mid h_t)$, with null tokens, enables both forward and inverse dynamics via conditioning.
 - **Classifier-free guidance** interpolates between unconditional and conditional distributions using log-probabilities and their gradients.
 - **Q-learning guidance** further biases the model toward high-value actions, integrating RL objectives into the generative process.
+- **Reward function learning** enables the agent to learn the reward structure from data, preferences, or demonstrations, and to use this learned reward for policy optimization and model-based planning.
 - This unified approach allows flexible control over the generation process, supporting both model-based planning and value-based RL in a single framework.
 
 ---
@@ -192,7 +234,103 @@ $$
 **In practice:**  
 - During sampling, you can use the guidance scale $w$ (for CFG) and $\beta$ (for Q-learning) to control the strength of conditioning and value guidance.
 - The null tokens ensure that marginals and conditionals are well-defined and separated for both state and action spaces.
-- This framework enables joint learning and inference of dynamics, inverse dynamics, and value-guided action selection.
+- The reward function $r_\psi$ can be learned jointly with the dynamics and policy models, and used for both real and imagined data.
+- This framework enables joint learning and inference of dynamics, inverse dynamics, reward functions, and value-guided action selection.
+
+
+
+---
+
+#### **Imagination-Augmented Learning: Mathematical Formulation**
+
+To improve performance, we can **augment the agent's experience** by generating imagined trajectories using the joint model. This process, often called *model-based imagination* or *imagination rollouts*, allows the agent to learn from both real and synthetic data.
+
+**Imagination-Augmented Objective:**
+
+Let $\mathcal{D}_{\text{real}}$ be the dataset of real transitions, and $\mathcal{D}_{\text{imag}}$ be the set of imagined transitions generated by the model. The learning objective can be formulated as:
+
+$$
+\mathcal{L}_{\text{aug}} = \mathbb{E}_{(h_t, a_t, s_{t+1}, r_t) \sim \mathcal{D}_{\text{real}} \cup \mathcal{D}_{\text{imag}}} \left[ \ell(h_t, a_t, s_{t+1}, r_t) \right]
+$$
+
+where $\ell$ is the loss function (e.g., TD error for Q-learning, policy gradient loss, etc.).
+
+**Generating Imagined Data:**
+
+For each real or imagined history $h_t$, we can sample $K$-step imagined rollouts:
+
+- For $i = 0, \ldots, K-1$:
+  $$
+  (a_{t+i}, s_{t+i+1}) \sim p_{\text{CFG+Q}}(a_{t+i}, s_{t+i+1} \mid h_{t+i})
+  $$
+  $$
+  r_{t+i} = r_\psi(h_{t+i}, a_{t+i}, s_{t+i+1})
+  $$
+  $$
+  h_{t+i+1} = h_{t+i} \cup (a_{t+i}, s_{t+i+1})
+  $$
+
+The imagined transitions $(h_{t+i}, a_{t+i}, s_{t+i+1}, r_{t+i})$ are added to $\mathcal{D}_{\text{imag}}$.
+
+**Augmented Value Estimation:**
+
+The Q-function can be updated using both real and imagined data:
+
+$$
+Q(h_t, a_t) \leftarrow Q(h_t, a_t) + \alpha \left( r_t + \gamma \max_{a'} Q(h_{t+1}, a') - Q(h_t, a_t) \right)
+$$
+
+where $(h_t, a_t, s_{t+1}, r_t)$ may come from either $\mathcal{D}_{\text{real}}$ or $\mathcal{D}_{\text{imag}}$.
+
+---
+
+#### **Null Action in Continuous Spaces: Augmentation Approach**
+
+In continuous action spaces, using $a = 0$ as the null action (i.e., "no action") can cause ambiguity, since $a = 0$ may be a valid action. To address this, we **augment the action space** with a binary indicator for null actions.
+
+**Augmented Action Representation:**
+
+Let the original action space be $\mathcal{A} \subseteq \mathbb{R}^d$. We define the augmented action as:
+
+$$
+\tilde{a}_t = (a_t, m_t), \quad a_t \in \mathcal{A}, \quad m_t \in \{0, 1\}
+$$
+
+where $m_t = 1$ indicates a "null" (no-op) action, and $m_t = 0$ indicates a regular action.
+
+**Augmented Joint Model:**
+
+The joint model is now:
+
+$$
+p(a_t, m_t, s_{t+1} \mid h_t)
+$$
+
+- The **null action** is represented by $m_t = 1$ (regardless of $a_t$).
+- The **conditional** model is $p(a_t, m_t = 0, s_{t+1} \mid h_t)$.
+- The **unconditional** (null) model is $p(a_t, m_t = 1, s_{t+1} \mid h_t)$.
+
+**Classifier-Free Guidance with Augmentation:**
+
+The guidance term becomes:
+
+$$
+\log p_{\text{CFG}}(a_t, m_t, s_{t+1} \mid h_t) = \log p(a_t, m_t, s_{t+1} \mid h_t) + w \left[ \log p(a_t, m_t = 0, s_{t+1} \mid h_t) - \log p(a_t, m_t = 1, s_{t+1} \mid h_t) \right]
+$$
+
+This formulation ensures that the null action is **explicitly separated** from any real action, even if $a_t = 0$ is a valid action.
+
+**Summary:**
+
+- **Imagination-augmented learning** improves sample efficiency and performance by leveraging both real and model-generated data.
+- **Action space augmentation** with a null indicator variable resolves ambiguity in continuous spaces, enabling effective classifier-free guidance and robust learning.
+- **Reward function learning** can be seamlessly integrated into this framework, supporting learning from direct rewards, preferences, or demonstrations, and enabling flexible reward shaping and adaptation.
+
+---
+
+
+
+
 
 
 
