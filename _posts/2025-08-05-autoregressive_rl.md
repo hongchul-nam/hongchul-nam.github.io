@@ -161,7 +161,9 @@ $$
 
 Alternatively, use a planner to generate a sequence of optimal future states, then use the inverse dynamics model to map each planned state to the corresponding action:
 
-1. **Planning:** Plan a sequence of optimal states $s_{t+1}^*, s_{t+2}^*, \ldots$ using the forward model and reward.
+1. **Planning:** Plan a sequence of optimal states 
+$s_{t+1}^*, s_{t+2}^*, \ldots$ 
+using the forward model and reward.
 2. **State-to-Action Mapping:** For each $s_{t+1}^*$, use $P(a_t \| h_t, s_{t+1}^*)$ to infer the action.
 3. **Policy Extraction:** The policy is realized as: plan optimal states, then map to actions via inverse dynamics.
 
@@ -239,7 +241,7 @@ In continuous action spaces, using $a = 0$ as the null action can cause ambiguit
 - This framework enables joint learning and inference of dynamics, inverse dynamics, reward functions, and value-guided action selection.
 - To extract a policy for acting, you can sample $a_t$ from the interpolated distribution 
 $$
-\pi(a_t|h_t) \propto P(a_t, \varnothing^S \| h_t) \exp(\lambda \beta Q(h_t, a_t))
+\pi(a_t \| h_t) \propto P(a_t, \varnothing^S \| h_t) \exp(\lambda \beta Q(h_t, a_t))
 $$
 , or plan a sequence of optimal states and use the inverse dynamics model to map each $(h_t, s_{t+1}^*)$ to the corresponding action.
 
