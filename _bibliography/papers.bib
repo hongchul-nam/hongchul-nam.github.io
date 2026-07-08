@@ -1,12 +1,56 @@
 ---
 ---
 
+@inproceedings{nam2026ebol,
+  author    = {Nam*, Hong Chul and Cheon*, Jeonghwan and Shin, Jae Mo and Kwon, Hyun},
+  title     = {Energy-Based Operator Learning in Function Space},
+  booktitle = {ICML 2026 AI for Science Workshop},
+  year      = {2026},
+  preview   = {ebol.svg},
+  html      = {https://openreview.net/forum?id=JxGI4PyuX4},
+  abstract  = {We propose Energy-Based Operators (EBOs), an architecture-agnostic framework for learning conditional distributions over functions on continuous domains. An EBO defines a scalar energy over target functions given an input function and induces a probability model through a Gaussian reference. The resulting score field is obtained as the gradient of the parametrized energy to perform function-space iterative energy minimization (EM). Our model shows strong performance in function generation, such as super-resolution and forecasting, over various 1D function classes (oscillations, damping, and Izhikevich) in comparison with prediction operators and denoising operators over various architecture backbones. Moreover, it achieves strong performance over PDEs, namely Navier-Stokes, Darcy flow and Burgers. Notably, our model successfully detects anomalous functions by automatically assigning high energy without any supervision. It enables seizure detection and volatility prediction after learning neural dynamics and market microstructure dynamics without pre-defined labels during training, highlighting its effectiveness for both learning dynamical systems and detecting functional anomalies arising in scientific simulations and modeling.},
+}
+
+@article{viswanath2026operator,
+  author    = {Viswanath*, Hrishikesh and Nam*, Hong Chul and Deng, Xi and Berner, Julius and Anandkumar, Anima and Bera, Aniket},
+  title     = {Operator Learning Using Weak Supervision from Walk-on-Spheres},
+  journal   = {arXiv preprint arXiv:2603.01193},
+  year      = {2026},
+  preview   = {wosno.svg},
+  arxiv     = {2603.01193},
+  url       = {https://arxiv.org/abs/2603.01193},
+  html      = {https://openreview.net/forum?id=decwnDznEl},
+  abstract  = {Training neural PDE solvers is often bottlenecked by expensive data generation or unstable physics-informed neural network (PINN) involving challenging optimization landscapes due to higher-order derivatives. To tackle this issue, we propose an alternative approach using Monte Carlo approaches to estimate the solution to the PDE as a stochastic process for weak supervision during training. Leveraging the Walk-on-Spheres method, we introduce a learning scheme called Walk-on-Spheres Neural Operator (WoS-NO) which uses weak supervision from WoS to train any given neural operator. We propose to amortize the cost of Monte Carlo walks across the distribution of PDE instances using stochastic representations from the WoS algorithm to generate cheap, noisy, estimates of the PDE solution during training. This is formulated into a data-free physics-informed objective where a neural operator is trained to regress against these weak supervisions, allowing the operator to learn a generalized solution map for an entire family of PDEs. This strategy does not require expensive pre-computed datasets, avoids computing higher-order derivatives for loss functions that are memory-intensive and unstable, and demonstrates zero-shot generalization to novel PDE parameters and domains. Experiments show that for the same number of training steps, our method exhibits up to 8.75x improvement in L2-error compared to standard physics-informed training schemes, up to 6.31x improvement in training speed, and reductions of up to 2.97x in GPU memory consumption.},
+}
+
+@inproceedings{joung2026aiscribe,
+  author    = {Joung, Eunki and Nam, Hong Chul and Hwang, Geonhwi and Lee, Moohyun and Kwon, Hyun},
+  title     = {Making Visible, Making Invisible: How an AI Scribe Reshapes Documentation Authority in Social Work},
+  booktitle = {Trustworthy AI for Good (AI4GOOD) Workshop @ ICML 2026},
+  year      = {2026},
+  preview   = {aiscribe.svg},
+  html      = {https://openreview.net/forum?id=i9LSnW2F8o},
+  abstract  = {AI scribes have shown promise in reducing clinical documentation burden and are now extending into social work. Social work documentation, however, serves a distinct function: it mediates between individual clients and the welfare regime, determining eligibility and shaping whose needs are recognized. We designed and deployed Care Fish, an AI scribe technology probe for in-home older adult care in South Korea, with four social workers over two weeks. Participants reported that Care Fish improved documentation efficiency by surfacing information missed during client interviews, and they identified and corrected its errors during a re-entry step into their existing systems. The deployment also surfaced shifts in documentation practice. The recording and AI-generated citations acquired a form of authority that workers compared against their own observations, reinforcing an existing epistemological hierarchy in which institutional ways of knowing outrank both worker observation and client speech. The expectation of being recorded changed how both clients and workers spoke during case interviews. We discuss how these shifts bear on workers' professional discretion and clients' self-presentation and consider design directions that make the AI scribe's own perspective visible to the workers who use it.},
+}
+
+@inproceedings{jang2025qguided,
+  author    = {Jang*, Yejun and Nam*, Hong Chul and Park, Jeong Min and Bae, Gimin and Kwon, Hyun},
+  title     = {Q-Guided Flow Q-Learning},
+  booktitle = {CoRL 2025 Workshop RemembeRL},
+  year      = {2025},
+  preview   = {qfql.svg},
+  html      = {https://openreview.net/forum?id=MFY9i3uR7S},
+  abstract  = {Generative policies improve expressivity over Gaussian actors but often come with entangled training pipelines (e.g., joint actor-critic training, student-teacher distillation, or sequence-to-sequence planners). We introduce Q-Guided Flow Q-Learning (QFQL), an actor-critic framework where the actor is trained independently via conditional flow matching for behavior cloning, and the critic is trained separately via temporal-difference (TD) learning. At inference, actions are produced by integrating the flow field and adding a value-seeking correction proportional to the action-gradient of the critic, i.e., a guidance term $\beta \nabla_a Q(s,a)$. This decoupled design simplifies optimization, reduces instability from joint updates, and enables controllable trade-offs between behavioral realism and value-seeking at test time. Empirically, QFQL achieves strong offline reinforcement learning (RL) performance and stable training across tasks without auxiliary student models or policy regularizers, making it a strong candidate for offline RL.},
+}
+
 @inproceedings{oh2025funcflow,
-  author    = {Nam*, Hong Chul and Oh*, Tae Il and  and Park, Chanwoo and Cho, Hyunbo},
+  author    = {Nam*, Hong Chul and Oh*, Tae Il and Park, Chanwoo and Cho, Hyunbo},
   title     = {FuncFlow: A Generative Neural Operator Using Diffusion Model for Simulation Augmentation},
   booktitle = {International Compact Modeling Conference (ICMC)},
   year      = {2025},
-  abstract  = {},
+  preview   = {funcflow.svg},
+  html      = {https://ieeexplore.ieee.org/document/11102320/},
+  abstract  = {Large-scale simulations of semiconductor devices are crucial for understanding their behavior, yet each iteration of these simulations can take hours or even days. The complexity of modern transistors intensifies this challenge, demanding even more simulations to capture their diverse characteristics accurately. On the other hand, with the emergence of foundation models and other learning-based methods in semiconductors, it becomes critical to develop a systematic methodology for curating abundant, high-quality device data. In response to these challenges, we propose FuncFlow, a generative neural operator for augmenting device simulations. FuncFlow learns the probability distribution of arbitrary device types and generates valid simulation results at the corresponding technology scale within seconds. We evaluate FuncFlow over capacitance-voltage (CV) curve generations at different technology scales and demonstrate that FuncFlow can successfully learn the distribution and generate physically valid CV curves at each scale, significantly reducing the simulation time.},
 }
 
 @inproceedings{vincent2025large,
@@ -14,23 +58,29 @@
   title     = {Large Pre-trained Model Approach for Efficient Design Technology Co-Optimization},
   booktitle = {International Compact Modeling Conference (ICMC)},
   year      = {2025},
-  abstract  = {},
+  preview   = {dtco.svg},
+  doi       = {10.1109/ICMC64879.2025.11102345},
+  html      = {https://doi.org/10.1109/ICMC64879.2025.11102345},
+  abstract  = {In this work, we present a novel approach using large pretrained models to generate compact models for semiconductor devices, accelerating design technology co-optimization (DTCO) in advanced technology nodes. Our pretrained models, initially trained on SPICE-generated planar MOSFET datasets, demonstrate strong adaptability to state-of-the-art logic technologies while maintaining high accuracy. By integrating these models with device-specific artificial neural networks (ANNs), we enable rapid compact model generation even with limited data. We validate our approach through DTCO analysis of vertically stacked nanosheet-based GAA-FETs, showing that it requires significantly fewer data points compared to conventional methods while enhancing both accuracy and simulation speed.},
 }
 
 
 @INPROCEEDINGS{oh2024,
   author={Oh*, Tae Il and Nam*, Hong Chul and Park, Chanwoo and Cho, Hyunbo},
   booktitle={2024 International Conference on Simulation of Semiconductor Processes and Devices (SISPAD)}, 
-  title={FuncAnoDe: A Function Level Anomaly Detection in Device Simulation}, 
+  title={FuncAnoDe: A Function Level Anomaly Detection in Device Simulation},
   year={2024},
+  preview={funcanode.svg},
   volume={},
   number={},
-  url = {},
+  html = {https://ieeexplore.ieee.org/document/10733289},
   abstract={In semiconductor device simulations, the reliance on empirical compact models, such as the Berkeley Short-channel IGFET Model (BSIM) and neural compact models, introduces approximations that may significantly diverge from actual physical phenomena. Identifying and filtering out unphysical behaviors and erroneous simulation outcomes is a challenging task, traditionally requiring extensive expert involvement and incurring high costs. In response, we introduce FuncAnoDe, a novel neural operator for unsupervised functional anomaly detection in semiconductor simulation datasets. FuncAnoDe is the first to offer deep learning-based function-level anomaly detection without manual expert intervention. Its function-level encoder-decoder architecture enables applications across a diverse range of device parameters and simulations, ensuring scalability and high accuracy in identifying physically implausible parameter configurations. Our evaluations were conducted through complex capacitance-voltage (C-V) curve analysis, and FuncAnoDe demonstrated its effectiveness in anomaly detection by achieving a 100.00\% accuracy without reliance on manual labeling. FuncAnoDe provides a methodological advancement that enhances the precision, reliability, and efficiency of semiconductor design and simulation workflows.},
 }
 
 @InProceedings{pmlr-v235-nam24a,
   title = 	 {Solving Poisson Equations using Neural Walk-on-Spheres},
+  preview =      {nwos.svg},
+  html =         {https://proceedings.mlr.press/v235/nam24a.html},
   author =       {Nam*, Hong Chul and Berner*, Julius and Anandkumar, Anima},
   booktitle = 	 {Proceedings of the 41st International Conference on Machine Learning},
   pages = 	 {37277--37292},
@@ -47,6 +97,8 @@
 
 @inproceedings{nam2023npcnis,
   title={{NPC}-{NIS}: Navigating Semiconductor Process Corners with Neural Importance Sampling},
+  preview={npcnis.svg},
+  html={https://openreview.net/forum?id=QIwA1zUd2t},
   author={Nam, Hong Chul and Park, Chanwoo},
   booktitle={NeurIPS 2023 Workshop on Adaptive Experimental Design and Active Learning in the Real World},
   year={2023},
@@ -58,8 +110,10 @@
 @INPROCEEDINGS{10319551,
   author={Park*, Chanwoo and Nam*, Hong Chul and Park, Jihun and Jeon, Jongwook},
   booktitle={2023 International Conference on Simulation of Semiconductor Processes and Devices (SISPAD)}, 
-  title={FlowSim: An Invertible Generative Network for Efficient Statistical Analysis under Process Variations}, 
+  title={FlowSim: An Invertible Generative Network for Efficient Statistical Analysis under Process Variations},
   year={2023},
+  preview={flowsim.svg},
+  html={https://ieeexplore.ieee.org/document/10319551},
   volume={},
   number={},
   pages={157-160},
@@ -73,6 +127,8 @@
 author = {Kanellopoulos, Konstantinos and Nam, Hong Chul and Bostanci, Nisa and Bera, Rahul and Sadrosadati, Mohammad and Kumar, Rakesh and Bartolini, Davide Basilio and Mutlu, Onur},
 title = {Victima: Drastically Increasing Address Translation Reach by Leveraging Underutilized Cache Resources},
 year = {2023},
+preview = {victima.svg},
+html = {https://doi.org/10.1145/3613424.3614276},
 isbn = {9798400703294},
 publisher = {Association for Computing Machinery},
 address = {New York, NY, USA},
