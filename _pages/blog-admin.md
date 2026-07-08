@@ -28,7 +28,7 @@ hidden: true
     <div class="col-12">
       <h2>Blog Management Panel</h2>
       <p class="text-muted">Manage your blog posts including hidden ones</p>
-      
+
       <div class="row mb-4">
         <div class="col-md-6">
           <div class="card">
@@ -79,6 +79,7 @@ hidden: true
         </div>
       </div>
     </div>
+
   </div>
 </div>
 
@@ -194,4 +195,4 @@ document.getElementById('admin-password').addEventListener('keypress', function(
 .badge {
   font-size: 0.8em;
 }
-</style> 
+</style>

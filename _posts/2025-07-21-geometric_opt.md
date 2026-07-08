@@ -21,6 +21,7 @@ $$
 $$
 
 where:
+
 - $\mathbf{u}(\mathbf{x})$ is the **advection velocity field** (e.g., airflow),
 - $D(T)$ is the **diffusion coefficient**, which may depend on temperature.
 
@@ -75,15 +76,15 @@ The **goal** is to find an optimal chamber geometry (parameterized, for example,
 
 #### **Optimization Problem Statement**
 
-- **Find:**  
+- **Find:**
   - Chamber geometry (e.g., spline control points defining the boundary)
   - Sensor locations $\{\mathbf{x}_i\}_{i=1}^N$ (with $N$ as small as possible)
 
-- **to minimize:**  
+- **to minimize:**
   - The number of sensors $N$
   - **while maximizing** the information captured about the VOC field (e.g., maximizing coverage, minimizing uncertainty, maximizing mutual information, or maximizing the ability to reconstruct $c(\mathbf{x}, t)$ from sensor readings)
 
-- **subject to:**  
+- **subject to:**
   - The reaction-diffusion-advection PDE (without reaction term):
     $$
     \frac{\partial c}{\partial t} + \nabla \cdot (\mathbf{u} c) = \nabla \cdot \left( D(T) \nabla c \right)
@@ -100,6 +101,7 @@ $$
 $$
 
 where:
+
 - $\text{ReconstructionError}$ quantifies how well the full concentration field can be inferred from the sensor readings,
 - $\lambda$ is a regularization parameter penalizing the number of sensors.
 
@@ -163,16 +165,19 @@ This stochastic representation provides a probabilistic interpretation of the co
 - This framework enables principled design of sensor arrays and chamber geometries for maximal information capture with minimal hardware, and allows for flexible, spline-based geometry optimization.
 
 ---
+
 ---
 
 ### **Application to the E-Nose Advection-Diffusion PDE (No Reaction Term)**
 
 Since we are **ignoring the reaction term** (i.e., analyte consumption by sensors is negligible), the evolution of the analyte concentration is governed by the advection-diffusion SDE:
+
 $$
 d\mathbf{X}_t = \mathbf{u}(\mathbf{X}_t) dt + \sqrt{2 D(T(\mathbf{X}_t, t))} d\mathbf{W}_t
 $$
 
 The solution to the PDE for $c(\mathbf{x}, t)$ with initial condition $c_0(\mathbf{x})$ is given by:
+
 $$
 c(\mathbf{x}, t) = \mathbb{E}^{\mathbf{X}_0 = \mathbf{x}} \left[ c_0(\mathbf{X}_t) \right]
 $$
@@ -188,9 +193,11 @@ The **geometry and sensor placement optimization** problem can be formulated as:
 
 - **Find:** sensor locations $\{\mathbf{x}_i\}$, chamber geometry, and/or temperature profile $T(\mathbf{x}, t)$
 - **to optimize:**
+
   $$
   \mathcal{L} = \mathbb{E} \left[ \int_0^T F(\mathbf{X}_t, t, \text{path functionals}) \, dt \right]
   $$
+
   where $F$ encodes the desired performance or information metric, and the expectation is over the SDE paths.
 
 - **subject to:** the advection-diffusion SDE dynamics above.
@@ -217,15 +224,19 @@ This approach removes the need for repeated expensive PDE solves during optimiza
 In the **supervised learning** setting, we use the Feynman-Kac formula to generate ground-truth labels for training the neural operator surrogate, and then leverage this surrogate to optimize the chamber geometry and sensor placement.
 
 - **Label Generation:** For each training example (geometry, initial condition, temperature, sensor placement), compute the reference solution $c(\mathbf{x}, t)$ using the Feynman-Kac expectation:
+
   $$
   c_{\text{label}}(\mathbf{x}, t) = \mathbb{E}^{\mathbf{X}_0 = \mathbf{x}} \left[ c_0(\mathbf{X}_t) \right]
   $$
+
   This is typically estimated via Monte Carlo simulation of the SDE.
 
 - **Supervised Loss:** The neural operator $\mathcal{G}_\theta$ is trained to minimize the discrepancy between its prediction and the Feynman-Kac label:
+
   $$
   \mathcal{L}_{\text{sup}} = \mathbb{E}_{\text{data}} \left[ \| \mathcal{G}_\theta(\text{input}) - c_{\text{label}} \|^2 \right]
   $$
+
   where the input includes geometry, $c_0$, $T$, and sensor locations.
 
 - **Ultimate Objective — Geometry Optimization:**  
@@ -236,16 +247,17 @@ In the **supervised learning** setting, we use the Feynman-Kac formula to genera
   The surrogate $\mathcal{G}_\theta$ enables rapid evaluation of $c(\mathbf{x}, t)$ or sensor outputs for new candidate geometries, allowing for efficient optimization (e.g., via gradient-based or evolutionary algorithms) to find the optimal shape and sensor configuration.
 
 **Summary of Workflow:**
+
 1. **Generate training data** using Feynman-Kac as the ground-truth label.
 2. **Train the neural operator** with supervised loss to match Feynman-Kac solutions.
 3. **Use the trained operator** as a surrogate to rapidly optimize geometry and sensor placement for the ultimate design objective.
 
 ---
 
-
 ---
 
-**Summary:**  
+**Summary:**
+
 - The e-nose chamber design problem is considered **without reaction terms**, so the analyte field evolves by advection and diffusion only.
 - The Feynman-Kac representation simplifies, and there is **no need for Dirac delta or Gaussian approximations**.
 - **Operator learning** enables rapid surrogate modeling of the PDE solution, supporting efficient geometry and sensor placement optimization for maximal information capt
