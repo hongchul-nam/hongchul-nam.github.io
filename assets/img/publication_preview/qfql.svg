@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#f7fafc"/><stop offset="1" stop-color="#eef3f8"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+    <stop offset="0" stop-color="#f2c14e" stop-opacity="0.9"/>
+    <stop offset="1" stop-color="#f2c14e" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="blue" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#3b82c4"/><stop offset="1" stop-color="#2a5f96"/>
+  </linearGradient>
+  <radialGradient id="pot" cx="0.5" cy="0.5" r="0.55">
+    <stop offset="0" stop-color="#3b82c4" stop-opacity="0.55"/>
+    <stop offset="0.6" stop-color="#28b0a0" stop-opacity="0.18"/>
+    <stop offset="1" stop-color="#28b0a0" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+    <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#16233b" flood-opacity="0.18"/>
+  </filter>
+  <clipPath id="rc"><rect x="0" y="0" width="400" height="400" rx="30"/></clipPath>
+</defs>
+<g clip-path="url(#rc)">
+  <rect x="0" y="0" width="400" height="400" fill="url(#bg)"/>
+  <defs><marker id="mf" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="7" markerHeight="7" orient="auto"><path d="M1,2 L10,6 L1,10" fill="none" stroke="#8ea3bd" stroke-width="1.8"/></marker><marker id="mg" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#28b0a0"/></marker><marker id="mr" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2a5f96"/></marker></defs>
+<circle cx="302" cy="96" r="160" fill="url(#glow)"/>
+<circle cx="302.0" cy="96.0" r="158.0" fill="none" stroke="#f2c14e" stroke-width="2" opacity="0.1"/>
+<circle cx="302.0" cy="96.0" r="120.0" fill="none" stroke="#f2c14e" stroke-width="2" opacity="0.18"/>
+<circle cx="302.0" cy="96.0" r="86.0" fill="none" stroke="#f2c14e" stroke-width="2" opacity="0.28"/>
+<circle cx="302.0" cy="96.0" r="54.0" fill="none" stroke="#f2c14e" stroke-width="2" opacity="0.42"/>
+<circle cx="302.0" cy="96.0" r="26.0" fill="none" stroke="#f2c14e" stroke-width="2" opacity="0.65"/>
+<circle cx="302.0" cy="96.0" r="13.0" fill="#f2c14e" stroke="#fff" stroke-width="2" opacity="1"/>
+<text x="302" y="102" font-family="Georgia,serif" font-size="19" font-weight="bold" fill="#16233b" text-anchor="middle">Q</text>
+<line x1="60" y1="155" x2="84" y2="145" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="60" y1="204" x2="84" y2="194" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="60" y1="252" x2="84" y2="243" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="60" y1="301" x2="84" y2="291" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="60" y1="350" x2="84" y2="340" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="106" y1="155" x2="130" y2="145" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="106" y1="204" x2="130" y2="194" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="106" y1="252" x2="130" y2="243" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="106" y1="301" x2="130" y2="291" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="106" y1="350" x2="130" y2="340" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="151" y1="155" x2="175" y2="145" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="151" y1="204" x2="175" y2="194" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="151" y1="252" x2="175" y2="243" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="151" y1="301" x2="175" y2="291" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="151" y1="350" x2="175" y2="340" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="197" y1="155" x2="221" y2="145" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="197" y1="204" x2="221" y2="194" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="197" y1="252" x2="221" y2="243" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="197" y1="301" x2="221" y2="291" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="197" y1="350" x2="221" y2="340" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="242" y1="155" x2="266" y2="145" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="242" y1="204" x2="266" y2="194" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="242" y1="252" x2="266" y2="243" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="242" y1="301" x2="266" y2="291" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="242" y1="350" x2="266" y2="340" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="288" y1="155" x2="312" y2="145" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="288" y1="204" x2="312" y2="194" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="288" y1="252" x2="312" y2="243" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="288" y1="301" x2="312" y2="291" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<line x1="288" y1="350" x2="312" y2="340" stroke="#c4d0de" stroke-width="2" marker-end="url(#mf)" opacity="0.55"/>
+<path d="M 72.0,336.0 C 82.0,328.7 112.3,308.0 132.0,292.0 C 151.7,276.0 171.7,257.7 190.0,240.0 C 208.3,222.3 226.3,204.0 242.0,186.0 C 257.7,168.0 274.0,145.7 284.0,132.0 C 294.0,118.3 299.0,108.7 302.0,104.0 " fill="none" stroke="#2a5f96" stroke-width="3.4" stroke-opacity="0.9" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="132" y1="292" x2="169" y2="277" stroke="#8ea3bd" stroke-width="2.6" marker-end="url(#mf)"/>
+<line x1="169" y1="277" x2="191" y2="251" stroke="#28b0a0" stroke-width="2.6" stroke-dasharray="1 5" marker-end="url(#mg)"/>
+<line x1="132" y1="292" x2="154" y2="266" stroke="#28b0a0" stroke-width="3" marker-end="url(#mg)"/>
+<line x1="132" y1="292" x2="191" y2="251" stroke="#2a5f96" stroke-width="3.4" marker-end="url(#mr)"/>
+<circle cx="132.0" cy="292.0" r="4.5" fill="#16233b" stroke="#fff" stroke-width="1.2" opacity="1"/>
+<line x1="242" y1="186" x2="279" y2="171" stroke="#8ea3bd" stroke-width="2.6" marker-end="url(#mf)"/>
+<line x1="279" y1="171" x2="298" y2="143" stroke="#28b0a0" stroke-width="2.6" stroke-dasharray="1 5" marker-end="url(#mg)"/>
+<line x1="242" y1="186" x2="261" y2="158" stroke="#28b0a0" stroke-width="3" marker-end="url(#mg)"/>
+<line x1="242" y1="186" x2="298" y2="143" stroke="#2a5f96" stroke-width="3.4" marker-end="url(#mr)"/>
+<circle cx="242.0" cy="186.0" r="4.5" fill="#16233b" stroke="#fff" stroke-width="1.2" opacity="1"/>
+<text x="150" y="240" font-family="Georgia,serif" font-size="17" font-style="italic" fill="#28b0a0">&#8711;Q</text>
+<text x="196" y="300" font-family="Georgia,serif" font-size="14" fill="#8ea3bd">flow</text>
+</g>
+<rect x="1" y="1" width="398" height="398" rx="29" fill="none" stroke="#16233b" stroke-opacity="0.10" stroke-width="2"/>
+</svg>
