@@ -6,7 +6,7 @@ subtitle: <a href='https://cims.nyu.edu/'>Courant Institute</a> & <a href='https
 
 profile:
   align: right
-  image: prof_pic.jpg
+  image: full.png
   image_circular: false # crops the image to make it circular
   more_info: >
     <p>i.am.hongchulnam@gmail.com</p>
