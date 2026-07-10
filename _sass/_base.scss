@@ -1304,3 +1304,16 @@ ninja-keys::part(ninja-input-wrapper) {
   background-color: var(--global-theme-color);
   color: var(--global-text-color);
 }
+
+// MapMyVisitors visitor map
+.visitor-map-wrapper {
+  margin: 1.5rem 0;
+  display: flex;
+  justify-content: center;
+
+  img,
+  map,
+  #mapmyvisitors {
+    max-width: 100%;
+  }
+}

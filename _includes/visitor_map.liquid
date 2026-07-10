@@ -1,0 +1,25 @@
+<!-- MapMyVisitors (formerly ClustrMaps) visitor map. Renders a world map with a
+     dot per visitor city and links to a public page listing recent visits
+     (time + location). Configured via `visitor_map_id` and `enable_visitor_map`
+     in _config.yml. -->
+{% if site.enable_visitor_map and site.visitor_map_id %}
+  <div class="visitor-map-wrapper text-center">
+    <script
+      type="text/javascript"
+      id="mapmyvisitors"
+      src="//mapmyvisitors.com/map.js?d={{ site.visitor_map_id }}&cl=ffffff&w=a"
+    ></script>
+    <noscript>
+      <p>Enable JavaScript to view the live visitor map.</p>
+    </noscript>
+  </div>
+{% else %}
+  <div class="visitor-map-wrapper">
+    <p>
+      The visitor map is not configured yet. To turn it on: register this site at
+      <a href="https://www.mapmyvisitors.com" target="_blank" rel="noopener noreferrer">mapmyvisitors.com</a>,
+      copy the widget's <code>d=</code> ID into <code>visitor_map_id</code> in
+      <code>_config.yml</code>, and set <code>enable_visitor_map: true</code>.
+    </p>
+  </div>
+{% endif %}
