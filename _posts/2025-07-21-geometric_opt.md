@@ -50,13 +50,13 @@ This approach enables the optimization process to explore a wide range of possib
 
 Let $\Omega$ denote the spatial domain (e.g., the chamber, possibly defined by a spline), and $\partial\Omega$ its boundary.
 
-- **Inlet boundary ($\Gamma_\text{in}$):**
+- **Inlet boundary ($\Gamma\_\text{in}$):**
   - Prescribed gas concentration: $c(\mathbf{x}, t) = c_\text{in}(t)$ for $\mathbf{x} \in \Gamma_\text{in}$
   - Prescribed temperature: $T(\mathbf{x}, t) = T_\text{in}(t)$ for $\mathbf{x} \in \Gamma_\text{in}$
-- **Outlet boundary ($\Gamma_\text{out}$):**
+- **Outlet boundary ($\Gamma\_\text{out}$):**
   - Convective (outflow) or zero diffusive flux: $(-D(T)\nabla c + \mathbf{u}c)\cdot \mathbf{n} = 0$ for $\mathbf{x} \in \Gamma_\text{out}$
   - Temperature: insulated or prescribed, e.g., $\nabla T \cdot \mathbf{n} = 0$ or $T(\mathbf{x}, t) = T_\text{out}(t)$
-- **Walls ($\Gamma_\text{wall}$):**
+- **Walls ($\Gamma\_\text{wall}$):**
   - No-flux: $\nabla c \cdot \mathbf{n} = 0$ for $\mathbf{x} \in \Gamma_\text{wall}$
   - Insulated: $\nabla T \cdot \mathbf{n} = 0$ for $\mathbf{x} \in \Gamma_\text{wall}$
 - **Initial condition:**

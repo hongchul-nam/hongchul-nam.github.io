@@ -179,9 +179,9 @@ $$
 Alternatively, use a planner to generate a sequence of optimal future states, then use the inverse dynamics model to map each planned state to the corresponding action:
 
 1. **Planning:** Plan a sequence of optimal states
-   $s_{t+1}^*, s_{t+2}^*, \ldots$
+   $s_{t+1}^\*, s_{t+2}^\*, \ldots$
    using the forward model and reward.
-2. **State-to-Action Mapping:** For each $s_{t+1}^*$, use $P(a_t \mid h_t, s_{t+1}^*)$ to infer the action.
+2. **State-to-Action Mapping:** For each $s_{t+1}^\*$, use $P(a_t \mid h_t, s_{t+1}^\*)$ to infer the action.
 3. **Policy Extraction:** The policy is realized as: plan optimal states, then map to actions via inverse dynamics.
 
 ---
