@@ -1,0 +1,8 @@
+{% unless site.enable_fish_background == false or page.fish_background == false %}
+  <!-- Fish swimming in the page background; they react to the cursor -->
+  <script
+    defer
+    src="{{ '/assets/js/fish-background.js' | relative_url | bust_file_cache }}"
+    data-sprite="{{ '/assets/img/fish.svg' | relative_url | bust_file_cache }}"
+  ></script>
+{% endunless %}
