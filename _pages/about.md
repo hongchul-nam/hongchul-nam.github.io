@@ -9,7 +9,7 @@ profile:
   image: full.png
   image_circular: false # crops the image to make it circular
   more_info: >
-    <p>i.am.hongchulnam@gmail.com</p>
+    <p>hong.chul.nam@nyu.edu</p>
 
 news: true # includes a list of news items
 selected_papers: true # includes a list of papers marked as "selected={true}"

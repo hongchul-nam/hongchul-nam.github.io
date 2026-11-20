@@ -6,7 +6,7 @@ title: blank # the website title (if blank, full name will be used instead)
 first_name: Hong Chul
 middle_name:
 last_name: Nam
-email: i.am.hongchulnam@gmail.com
+email: hong.chul.nam@nyu.edu
 description: Hong Chul Nam is a PhD student at New York University working on operator learning and generative models for scientific problems.
 footer_text: >
   Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme.
