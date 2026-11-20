@@ -4,6 +4,11 @@
 // (see _includes/scripts/fish.liquid), so it can be swapped without touching this file.
 // The picture must face right. It is recoloured to match the current theme.
 //
+// When the picture is an SVG with the layers fish-body, fish-outline, fish-eye and
+// fish-mouth (like assets/img/fish.svg), every fish gets its own face: a slightly
+// different head shape, eye and mouth. Any other picture still works, but then all
+// fish look the same.
+//
 // Behaviour:
 //   - fish wander on their own, mostly left and right
 //   - a fast cursor, or a cursor that gets too close, scares nearby fish away
@@ -46,6 +51,35 @@
   const WAVE_Y = 0.035; // body ripple, as a share of body height
   const MAX_EFFORT = 1.6;
   const TAU = Math.PI * 2;
+
+  // How much one fish's face may differ from the original drawing
+  const LOOK_TALL = 0.09; // taller or longer head, as a share of its height
+  const LOOK_SNOUT = 0.07; // nose pushed out or pulled in, as a share of body length
+  const LOOK_SLANT = 0.07; // how far the back line leans
+  const LOOK_BROW = 0.05; // higher or flatter forehead
+  const LOOK_BELLY = 0.06; // deeper or shallower chin
+  const LOOK_EYE_SIZE = 0.3;
+  const LOOK_EYE_TURN = 0.3; // radians
+  const LOOK_EYE_SHIFT = 0.03;
+  const LOOK_MOUTH_SIZE = 0.27;
+  const LOOK_MOUTH_TURN = 0.22; // radians: a little smile or frown
+  const LOOK_MOUTH_SHIFT = 0.025;
+  const LAYERS = ["body", "outline", "eye", "mouth"];
+  // the drawing as it is; used for the visitor's fish in play mode
+  const PLAIN_LOOK = {
+    tall: 1,
+    snout: 0,
+    slant: 0,
+    brow: 0,
+    belly: 0,
+    eyeSize: 1,
+    eyeTurn: 0,
+    eyeX: 0,
+    eyeY: 0,
+    mouthSize: 1,
+    mouthTurn: 0,
+    mouthY: 0,
+  };
 
   // Play mode
   const PLAYER_LENGTH = 84; // the visitor's fish at the start of a game, in px
@@ -93,7 +127,8 @@
   let ratio = 1.1; // sprite height / width, set once the picture has loaded
   let color = "#888";
   let alphaScale = 1;
-  let sprites = {}; // recoloured sprites, one per fish size
+  let shapes = null; // the picture's layers, when it has them
+  let spriteEpoch = 0; // goes up when the colour or pixel density changes, so sprites are redrawn
   let fish = [];
   let ripples = [];
   let bubbles = [];
@@ -131,15 +166,168 @@
     return clamp(width / 1100, 0.75, 1); // smaller fish on small screens
   }
 
-  function spriteKey(f) {
-    return Math.max(8, Math.round(f.length * dpr));
+  function spread(amount) {
+    return (Math.random() * 2 - 1) * amount;
+  }
+
+  // ---- Shapes ---------------------------------------------------------------
+  // Reads one SVG path made of absolute M, L, C and Z commands into a list of
+  // [letter, numbers...] steps, with coordinates as shares of the picture's size.
+  function readPath(d, box) {
+    const tokens = d.match(/[a-zA-Z]|-?\d*\.?\d+(?:e-?\d+)?/g) || [];
+    const steps = [];
+    let letter = "";
+    let i = 0;
+    while (i < tokens.length) {
+      if (/[a-zA-Z]/.test(tokens[i])) {
+        letter = tokens[i];
+        if ("MLCZ".indexOf(letter) < 0) return null; // only absolute commands are understood
+        if (letter === "Z") steps.push(["Z"]);
+        i++;
+        continue;
+      }
+      const count = letter === "C" ? 6 : 2;
+      if (!letter || letter === "Z" || i + count > tokens.length) return null;
+      const step = [letter];
+      for (let k = 0; k < count; k++) {
+        const value = parseFloat(tokens[i + k]);
+        step.push(k % 2 === 0 ? (value - box[0]) / box[2] : (value - box[1]) / box[3]);
+      }
+      steps.push(step);
+      i += count;
+      if (letter === "M") letter = "L"; // more pairs after a move are lines
+    }
+    return steps.length ? steps : null;
+  }
+
+  function boundsOf(steps, change) {
+    const box = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity };
+    for (let i = 0; i < steps.length; i++) {
+      for (let k = 1; k < steps[i].length; k += 2) {
+        const point = change ? change(steps[i][k], steps[i][k + 1]) : [steps[i][k], steps[i][k + 1]];
+        box.minX = Math.min(box.minX, point[0]);
+        box.maxX = Math.max(box.maxX, point[0]);
+        box.minY = Math.min(box.minY, point[1]);
+        box.maxY = Math.max(box.maxY, point[1]);
+      }
+    }
+    return box;
+  }
+
+  // Returns the picture's layers, or null when it is not built the way this script expects.
+  function readShapes(text) {
+    const doc = new DOMParser().parseFromString(text, "image/svg+xml");
+    const box = (doc.documentElement.getAttribute("viewBox") || "")
+      .trim()
+      .split(/[\s,]+/)
+      .map(parseFloat);
+    if (box.length !== 4 || !(box[2] > 0) || !(box[3] > 0)) return null;
+    const found = { ratio: box[3] / box[2], bodyAlpha: 0.18 };
+    for (let i = 0; i < LAYERS.length; i++) {
+      const node = doc.querySelector('[id="fish-' + LAYERS[i] + '"]');
+      const steps = node ? readPath(node.getAttribute("d") || "", box) : null;
+      if (!steps) return null;
+      found[LAYERS[i]] = steps;
+      if (LAYERS[i] === "body" && parseFloat(node.getAttribute("fill-opacity")) > 0) found.bodyAlpha = parseFloat(node.getAttribute("fill-opacity"));
+    }
+    // The eye turns and grows around its own centre; the mouth around the point where it meets the face.
+    const eye = boundsOf(found.eye);
+    found.eyeX = (eye.minX + eye.maxX) / 2;
+    found.eyeY = (eye.minY + eye.maxY) / 2;
+    const mouth = boundsOf(found.mouth);
+    found.mouthX = mouth.maxX;
+    found.mouthY = (mouth.minY + mouth.maxY) / 2;
+    return found;
+  }
+
+  // ---- Looks ----------------------------------------------------------------
+  function makeLook() {
+    return {
+      tall: 1 + spread(LOOK_TALL),
+      snout: spread(LOOK_SNOUT),
+      slant: spread(LOOK_SLANT),
+      brow: spread(LOOK_BROW),
+      belly: spread(LOOK_BELLY),
+      eyeSize: 1 + spread(LOOK_EYE_SIZE),
+      eyeTurn: spread(LOOK_EYE_TURN),
+      eyeX: spread(LOOK_EYE_SHIFT),
+      eyeY: spread(LOOK_EYE_SHIFT),
+      mouthSize: 1 + spread(LOOK_MOUTH_SIZE),
+      mouthTurn: spread(LOOK_MOUTH_TURN),
+      mouthY: spread(LOOK_MOUTH_SHIFT),
+    };
+  }
+
+  // Bends the whole head into one fish's shape. u runs from the back (0) to the nose (1), v from top (0) to bottom (1).
+  function bend(look, u, v) {
+    const along = Math.sin(Math.PI * clamp(u, 0, 1));
+    return [
+      u + look.snout * u * u * Math.sin(Math.PI * clamp(v, 0, 1)) + look.slant * (1 - u) * (1 - u) * (2 * v - 1),
+      v + look.brow * along * (1 - v) * (1 - v) + look.belly * along * v * v,
+    ];
+  }
+
+  // Turns, resizes and shifts a point around a fixed point; `aspect` keeps the turn round on a non-square picture.
+  function turnAbout(u, v, pivotU, pivotV, size, turn, shiftU, shiftV, aspect) {
+    const dx = u - pivotU;
+    const dy = (v - pivotV) * aspect;
+    const cos = Math.cos(turn);
+    const sin = Math.sin(turn);
+    return [pivotU + shiftU + (dx * cos - dy * sin) * size, pivotV + shiftV + ((dx * sin + dy * cos) * size) / aspect];
   }
 
   // ---- Sprites --------------------------------------------------------------
-  // One recoloured copy of the picture per fish size, drawn straight from the
-  // vector file so every size stays sharp.
-  function spriteFor(lengthPx) {
-    if (sprites[lengthPx]) return sprites[lengthPx];
+  // Draws one fish's face from the layers, straight from the shapes so every size stays sharp.
+  function drawLook(look, lengthPx) {
+    const sprite = document.createElement("canvas");
+    sprite.width = lengthPx;
+    sprite.height = Math.max(1, Math.round(lengthPx * ratio * look.tall));
+    const sctx = sprite.getContext("2d");
+    const aspect = sprite.height / sprite.width;
+    const shape = function (u, v) {
+      return bend(look, u, v);
+    };
+    // fit the bent head exactly into the sprite, whatever its shape
+    const fit = boundsOf(shapes.outline, shape);
+    const scaleX = (sprite.width - 2) / (fit.maxX - fit.minX);
+    const scaleY = (sprite.height - 2) / (fit.maxY - fit.minY);
+
+    function fill(steps, alpha, move) {
+      sctx.globalAlpha = alpha;
+      sctx.beginPath();
+      for (let i = 0; i < steps.length; i++) {
+        const step = steps[i];
+        if (step[0] === "Z") {
+          sctx.closePath();
+          continue;
+        }
+        const xy = [];
+        for (let k = 1; k < step.length; k += 2) {
+          const moved = move ? move(step[k], step[k + 1]) : [step[k], step[k + 1]];
+          const bent = shape(moved[0], moved[1]);
+          xy.push(1 + (bent[0] - fit.minX) * scaleX, 1 + (bent[1] - fit.minY) * scaleY);
+        }
+        if (step[0] === "M") sctx.moveTo(xy[0], xy[1]);
+        else if (step[0] === "L") sctx.lineTo(xy[0], xy[1]);
+        else sctx.bezierCurveTo(xy[0], xy[1], xy[2], xy[3], xy[4], xy[5]);
+      }
+      sctx.fill();
+    }
+
+    sctx.fillStyle = color;
+    fill(shapes.body, shapes.bodyAlpha, null);
+    fill(shapes.outline, 1, null);
+    fill(shapes.eye, 1, function (u, v) {
+      return turnAbout(u, v, shapes.eyeX, shapes.eyeY, look.eyeSize, look.eyeTurn, look.eyeX, look.eyeY, aspect);
+    });
+    fill(shapes.mouth, 1, function (u, v) {
+      return turnAbout(u, v, shapes.mouthX, shapes.mouthY, look.mouthSize, look.mouthTurn, 0, look.mouthY, aspect);
+    });
+    return sprite;
+  }
+
+  // Fallback for a picture without layers: one recoloured copy of it.
+  function tintPicture(lengthPx) {
     const sprite = document.createElement("canvas");
     sprite.width = lengthPx;
     sprite.height = Math.max(1, Math.round(lengthPx * ratio));
@@ -148,17 +336,27 @@
     sctx.globalCompositeOperation = "source-in";
     sctx.fillStyle = color;
     sctx.fillRect(0, 0, sprite.width, sprite.height);
-    sprites[lengthPx] = sprite;
     return sprite;
   }
 
+  // Each fish keeps its own sprite, redrawn only when its size, the colour or the pixel density changes.
+  function spriteOf(f) {
+    const lengthPx = Math.max(8, Math.round(f.length * dpr));
+    if (!f.sprite || f.spritePx !== lengthPx || f.spriteEpoch !== spriteEpoch) {
+      f.sprite = shapes ? drawLook(f.look, lengthPx) : tintPicture(lengthPx);
+      f.spritePx = lengthPx;
+      f.spriteEpoch = spriteEpoch;
+    }
+    return f.sprite;
+  }
+
   function resetSprites() {
-    sprites = {};
+    spriteEpoch++;
     color = readColor();
     alphaScale = readAlphaScale();
     const longest = Math.ceil(Math.max(MAX_LENGTH, PLAYER_MAX_LENGTH) * dpr);
     scratch.width = longest + Math.ceil(longest * WAVE_X * MAX_EFFORT) + 4;
-    scratch.height = Math.ceil(longest * ratio * (1 + 2 * WAVE_Y * MAX_EFFORT)) + 6;
+    scratch.height = Math.ceil(longest * ratio * (1 + LOOK_TALL) * (1 + 2 * WAVE_Y * MAX_EFFORT)) + 8;
   }
 
   // ---- Fish -----------------------------------------------------------------
@@ -173,6 +371,10 @@
       length: Math.round((MIN_LENGTH + (MAX_LENGTH - MIN_LENGTH) * depth) * sizeScale()),
       alpha: MIN_ALPHA + (MAX_ALPHA - MIN_ALPHA) * depth,
       scale: 1,
+      look: makeLook(), // this fish's own face
+      sprite: null,
+      spritePx: 0,
+      spriteEpoch: -1,
       baseSpeed: baseSpeed,
       speed: baseSpeed,
       dir: dir, // which way the fish wants to face: 1 = right, -1 = left
@@ -322,6 +524,7 @@
     p.targetY = p.y;
     p.vx = 0;
     p.vy = 0;
+    p.look = PLAIN_LOOK; // the visitor plays as the original drawing
     p.length = Math.round(PLAYER_LENGTH * sizeScale());
     p.maxLength = Math.round(PLAYER_MAX_LENGTH * sizeScale());
     p.alpha = PLAYER_ALPHA;
@@ -379,10 +582,7 @@
       f.backAt = now + RESPAWN_MS + Math.random() * 2500;
       eaten++;
       p.chomp = 1;
-      if (p.length < p.maxLength) {
-        delete sprites[spriteKey(p)]; // the old size is not needed again
-        p.length = Math.min(p.maxLength, p.length + PLAYER_GROWTH);
-      }
+      p.length = Math.min(p.maxLength, p.length + PLAYER_GROWTH);
       ripples.push({ x: mouthX, y: mouthY, start: now, reach: 34 });
       for (let b = 0; b < 4; b++) {
         bubbles.push({
@@ -407,7 +607,6 @@
       eaten = 0;
       player = makePlayer();
     } else {
-      delete sprites[spriteKey(player)];
       player = null;
     }
     refreshButton();
@@ -447,8 +646,8 @@
     const margin = f.length * 1.2;
     if (f.x < -margin || f.x > width + margin || f.y < -margin || f.y > height + margin) return;
 
-    const lengthPx = spriteKey(f);
-    const sprite = spriteFor(lengthPx);
+    const sprite = spriteOf(f);
+    const lengthPx = sprite.width;
     const heightPx = sprite.height;
     const padX = Math.ceil(lengthPx * WAVE_X * MAX_EFFORT) + 1;
     const padY = Math.ceil(heightPx * WAVE_Y * MAX_EFFORT) + 1;
@@ -703,14 +902,49 @@
     }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "class", "style"] });
   }
 
-  image.onload = function () {
-    if (image.naturalWidth > 0 && image.naturalHeight > 0) ratio = image.naturalHeight / image.naturalWidth;
+  // ---- Start ----------------------------------------------------------------
+  function boot() {
     ready = true;
     resetSprites();
     populate();
     if (gameEnabled) buildButton();
     start();
-  };
+  }
+
+  // Fallback: draw the picture as it is, so every fish looks the same.
+  function usePicture() {
+    image.onload = function () {
+      if (image.naturalWidth > 0 && image.naturalHeight > 0) ratio = image.naturalHeight / image.naturalWidth;
+      boot();
+    };
+    image.src = spriteUrl;
+  }
+
   resize();
-  image.src = spriteUrl;
+  if (window.fetch && window.DOMParser) {
+    window
+      .fetch(spriteUrl)
+      .then(function (response) {
+        return response.ok ? response.text() : "";
+      })
+      .then(
+        function (text) {
+          try {
+            shapes = text ? readShapes(text) : null;
+          } catch (error) {
+            shapes = null;
+          }
+        },
+        function () {
+          shapes = null; // could not fetch the file
+        }
+      )
+      .then(function () {
+        if (!shapes) return usePicture();
+        ratio = shapes.ratio;
+        boot();
+      });
+  } else {
+    usePicture();
+  }
 })();
