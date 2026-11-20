@@ -104,7 +104,6 @@
   const PLAYER_GROWTH = 3; // px gained per fish eaten
   const PLAYER_SPEED = 300; // px/s
   const PLAYER_ALPHA = 0.85;
-  const PLAY_Z_INDEX = "1025"; // above the page content, below the navbar and footer
   const RESPAWN_MS = 1500; // shortest wait before an eaten fish comes back
   const BUBBLE_MS = 900;
 
@@ -132,6 +131,7 @@
   if (!ctx) return;
   canvas.id = "fish-background";
   canvas.setAttribute("aria-hidden", "true");
+  // Always behind the page: fish, rocks and everything else show through gaps in the content, never over the text.
   canvas.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;";
   document.body.insertBefore(canvas, document.body.firstChild);
 
@@ -961,7 +961,6 @@
     if (on === playing) return;
     if (on && (!ready || !running)) return;
     playing = on;
-    canvas.style.zIndex = on ? PLAY_Z_INDEX : "-1";
     if (on) {
       eaten = 0;
       player = makePlayer();
