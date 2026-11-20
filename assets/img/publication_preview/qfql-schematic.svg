@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#f7fafc"/><stop offset="1" stop-color="#eef3f8"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+    <stop offset="0" stop-color="#f2c14e" stop-opacity="0.85"/>
+    <stop offset="0.55" stop-color="#f2c14e" stop-opacity="0.28"/>
+    <stop offset="1" stop-color="#f2c14e" stop-opacity="0"/>
+  </radialGradient>
+  <marker id="arr" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" fill="#16233b"/>
+  </marker>
+  <marker id="arrT" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" fill="#28b0a0"/>
+  </marker>
+  <clipPath id="rc"><rect x="0" y="0" width="400" height="400" rx="0"/></clipPath>
+</defs>
+<g clip-path="url(#rc)">
+<rect x="0" y="0" width="400" height="400" fill="url(#bg)"/>
+<g transform="translate(-8,46) scale(1.04)">
+<circle cx="296" cy="92" r="88" fill="url(#glow)"/>
+<circle cx="296" cy="92" r="22" fill="none" stroke="#f2c14e" stroke-width="1.6" stroke-opacity="0.75"/>
+<circle cx="296" cy="92" r="44" fill="none" stroke="#f2c14e" stroke-width="1.6" stroke-opacity="0.75"/>
+<circle cx="296" cy="92" r="66" fill="none" stroke="#f2c14e" stroke-width="1.6" stroke-opacity="0.75"/>
+<circle cx="296" cy="92" r="86" fill="none" stroke="#f2c14e" stroke-width="1.6" stroke-opacity="0.75"/>
+<text x="296" y="101" font-family="Georgia,serif" font-size="26" fill="#16233b" text-anchor="middle" font-weight="bold">Q</text>
+<circle cx="227.4" cy="216.7" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="233.1" cy="204.7" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="211.6" cy="198.1" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="268.6" cy="231.1" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="267.4" cy="227.6" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="248.7" cy="219.3" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="183.5" cy="205.5" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="250.2" cy="225.3" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="197.7" cy="166.6" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="214.2" cy="194.8" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="247.4" cy="214.8" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="257.2" cy="208.4" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="244.9" cy="221.4" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="208.4" cy="229.9" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="247.7" cy="236.2" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="223.8" cy="193.8" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="228.4" cy="206.5" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="255.4" cy="223.0" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="230.2" cy="192.6" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="215.5" cy="224.2" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="212.5" cy="206.3" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="259.3" cy="194.7" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="231.9" cy="232.0" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="179.9" cy="184.0" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="239.5" cy="198.6" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="253.2" cy="216.8" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="189.6" cy="207.4" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="252.5" cy="233.8" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="278.8" cy="234.0" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="249.0" cy="194.0" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="259.8" cy="210.0" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="231.8" cy="188.0" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="212.3" cy="193.0" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="288.1" cy="196.6" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="193.2" cy="198.8" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="277.6" cy="237.2" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="196.0" cy="152.6" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="252.9" cy="205.2" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="199.0" cy="213.6" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="269.9" cy="227.0" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="242.8" cy="221.3" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="281.9" cy="239.6" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="250.3" cy="226.1" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="183.9" cy="213.0" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="263.4" cy="230.9" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<circle cx="182.9" cy="179.8" r="3.4" fill="#8ea3bd" fill-opacity="0.75"/>
+<text x="318" y="262" font-family="Georgia,serif" font-size="17" fill="#5b6b82" text-anchor="middle" >data</text>
+<path d="M 58,252 C 108,254 172,236 234,212" fill="none" stroke="#3b82c4" stroke-width="3.2" stroke-dasharray="7 7" stroke-linecap="round"/>
+<circle cx="234" cy="212" r="6" fill="#3b82c4" stroke="#fff" stroke-width="2"/>
+<text x="150" y="270" font-family="Georgia,serif" font-size="17" fill="#3b82c4" text-anchor="middle" >flow</text>
+<line x1="160.5" y1="228.1" x2="161.7" y2="216.0" stroke="#28b0a0" stroke-width="2.6" stroke-linecap="round" marker-end="url(#arrT)"/>
+<line x1="198.9" y1="216.9" x2="205.8" y2="190.3" stroke="#28b0a0" stroke-width="2.6" stroke-linecap="round" marker-end="url(#arrT)"/>
+<line x1="237.2" y1="203.6" x2="253.7" y2="161.2" stroke="#28b0a0" stroke-width="2.6" stroke-linecap="round" marker-end="url(#arrT)"/>
+<path d="M 58,252 C 98,240 174,200 258,150" fill="none" stroke="#ef7a5a" stroke-width="4.4" stroke-linecap="round"/>
+<circle cx="258" cy="150" r="7.5" fill="#ef7a5a" stroke="#fff" stroke-width="2.2"/>
+<text x="106" y="186" font-family="Georgia,serif" font-size="19" fill="#ef7a5a" text-anchor="middle" font-weight="bold">+ β∇Q</text>
+<circle cx="58" cy="252" r="8" fill="#16233b" stroke="#fff" stroke-width="2.2"/>
+<text x="58" y="284" font-family="Georgia,serif" font-size="15" fill="#5b6b82" text-anchor="middle" >noise</text>
+</g>
+</g>
+</svg>

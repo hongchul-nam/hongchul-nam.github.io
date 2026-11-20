@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Neural Walk-on-Spheres is accepted to ICML 2024!
+[Neural Walk-on-Spheres](https://proceedings.mlr.press/v235/nam24a.html) is accepted to ICML 2024!

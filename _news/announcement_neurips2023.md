@@ -5,5 +5,4 @@ inline: true
 related_posts: false
 ---
 
-NPC-NIS is accepted to NeurIPS 2023 Workshop on Adaptive Experimental Design and Active Learning
-!
+[NPC-NIS](https://openreview.net/forum?id=QIwA1zUd2t) is accepted to the NeurIPS 2023 Workshop on Adaptive Experimental Design and Active Learning in the Real World!

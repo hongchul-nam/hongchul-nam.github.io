@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Victima is accepted to MICRO 2023!
+[Victima](https://arxiv.org/abs/2310.04158) is accepted to MICRO 2023!
