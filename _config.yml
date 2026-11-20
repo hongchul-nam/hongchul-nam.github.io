@@ -443,6 +443,7 @@ enable_medium_zoom: true # enables image zoom feature (as on medium.com)
 enable_progressbar: true # enables a horizontal progress bar linked to the vertical scroll position
 enable_fish_background: true # enables fish swimming in the page background that react to the cursor (set fish_background: false in a page's front matter to switch them off there)
 enable_fish_game: true # adds a small "be the big fish" button: visitors steer a big fish with the cursor and eat the smaller ones (needs enable_fish_background)
+enable_fish_surprises: true # adds rocks the fish bounce off, and now and then a gust of current or a passing whirlpool (needs enable_fish_background)
 enable_video_embedding: false # enables video embedding for bibtex entries. If false, the button opens the video link in a new window.
 
 # -----------------------------------------------------------------------------
