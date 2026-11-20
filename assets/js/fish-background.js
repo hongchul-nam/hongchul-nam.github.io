@@ -5,9 +5,12 @@
 // The picture must face right. It is recoloured to match the current theme.
 //
 // When the picture is an SVG with the layers fish-body, fish-outline, fish-eye and
-// fish-mouth (like assets/img/fish.svg), every fish gets its own face: a slightly
-// different head shape, eye and mouth. Any other picture still works, but then all
-// fish look the same.
+// fish-mouth (like assets/img/fish.svg), every fish gets its own face: a different
+// head shape, plus one of the eyes and one of the mouths found in the file (the
+// originals, or any extra ones with ids like fish-eye-ring or fish-mouth-smile),
+// each resized, turned and moved a little, and often one of the hair styles
+// (ids like fish-hair-tuft). Any other picture still works, but then all fish look
+// the same.
 //
 // Behaviour:
 //   - fish wander on their own, mostly left and right
@@ -52,19 +55,22 @@
   const MAX_EFFORT = 1.6;
   const TAU = Math.PI * 2;
 
-  // How much one fish's face may differ from the original drawing
-  const LOOK_TALL = 0.09; // taller or longer head, as a share of its height
-  const LOOK_SNOUT = 0.07; // nose pushed out or pulled in, as a share of body length
-  const LOOK_SLANT = 0.07; // how far the back line leans
-  const LOOK_BROW = 0.05; // higher or flatter forehead
-  const LOOK_BELLY = 0.06; // deeper or shallower chin
-  const LOOK_EYE_SIZE = 0.3;
-  const LOOK_EYE_TURN = 0.3; // radians
-  const LOOK_EYE_SHIFT = 0.03;
-  const LOOK_MOUTH_SIZE = 0.27;
-  const LOOK_MOUTH_TURN = 0.22; // radians: a little smile or frown
-  const LOOK_MOUTH_SHIFT = 0.025;
-  const LAYERS = ["body", "outline", "eye", "mouth"];
+  // How much one fish's face may differ from the original drawing.
+  // Each fish also gets one of the eyes and one of the mouths in the picture file.
+  const LOOK_TALL = 0.14; // taller or longer head, as a share of its height
+  const LOOK_SNOUT = 0.11; // nose pushed out or pulled in, as a share of body length
+  const LOOK_SLANT = 0.12; // how far the back line leans
+  const LOOK_BROW = 0.08; // higher or flatter forehead
+  const LOOK_BELLY = 0.1; // deeper or shallower chin
+  const LOOK_EYE_SIZE = 0.35;
+  const LOOK_EYE_TURN = 0.4; // radians
+  const LOOK_EYE_SHIFT = 0.045;
+  const LOOK_MOUTH_SIZE = 0.32;
+  const LOOK_MOUTH_TURN = 0.3; // radians: tilts the mouth up or down
+  const LOOK_MOUTH_SHIFT = 0.04;
+  const LOOK_BALD = 0.2; // share of fish with no hair
+  const LOOK_HAIR_SIZE = 0.22;
+  const LOOK_HAIR_TURN = 0.12; // radians
   // the drawing as it is; used for the visitor's fish in play mode
   const PLAIN_LOOK = {
     tall: 1,
@@ -72,13 +78,18 @@
     slant: 0,
     brow: 0,
     belly: 0,
+    eyePick: 0, // 0 picks the first eye and mouth in the file: the original ones
     eyeSize: 1,
     eyeTurn: 0,
     eyeX: 0,
     eyeY: 0,
+    mouthPick: 0,
     mouthSize: 1,
     mouthTurn: 0,
     mouthY: 0,
+    hairPick: -1, // below 0 means no hair, like the original
+    hairSize: 1,
+    hairTurn: 0,
   };
 
   // Play mode
@@ -222,22 +233,73 @@
       .split(/[\s,]+/)
       .map(parseFloat);
     if (box.length !== 4 || !(box[2] > 0) || !(box[3] > 0)) return null;
-    const found = { ratio: box[3] / box[2], bodyAlpha: 0.18 };
-    for (let i = 0; i < LAYERS.length; i++) {
-      const node = doc.querySelector('[id="fish-' + LAYERS[i] + '"]');
-      const steps = node ? readPath(node.getAttribute("d") || "", box) : null;
-      if (!steps) return null;
-      found[LAYERS[i]] = steps;
-      if (LAYERS[i] === "body" && parseFloat(node.getAttribute("fill-opacity")) > 0) found.bodyAlpha = parseFloat(node.getAttribute("fill-opacity"));
-    }
-    // The eye turns and grows around its own centre; the mouth around the point where it meets the face.
-    const eye = boundsOf(found.eye);
-    found.eyeX = (eye.minX + eye.maxX) / 2;
-    found.eyeY = (eye.minY + eye.maxY) / 2;
-    const mouth = boundsOf(found.mouth);
-    found.mouthX = mouth.maxX;
-    found.mouthY = (mouth.minY + mouth.maxY) / 2;
+    const body = doc.querySelector('[id="fish-body"]');
+    const outline = doc.querySelector('[id="fish-outline"]');
+    const found = {
+      ratio: box[3] / box[2],
+      bodyAlpha: body && parseFloat(body.getAttribute("fill-opacity")) > 0 ? parseFloat(body.getAttribute("fill-opacity")) : 0.18,
+      body: body ? readPath(body.getAttribute("d") || "", box) : null,
+      outline: outline ? readPath(outline.getAttribute("d") || "", box) : null,
+      eyes: readParts(doc, "eye", box, false),
+      mouths: readParts(doc, "mouth", box, true),
+      hairs: readParts(doc, "hair", box, false), // optional: the original drawing has none
+      edgeSlope: 0,
+    };
+    if (!found.body || !found.outline || !found.eyes.length || !found.mouths.length) return null;
+    // How the edge of the face runs near the mouth, so a mouth moved up or down stays on the edge.
+    const upper = edgeAt(found.outline, found.mouths[0].pivotY - 0.06);
+    const lower = edgeAt(found.outline, found.mouths[0].pivotY + 0.06);
+    if (isFinite(upper) && isFinite(lower)) found.edgeSlope = (lower - upper) / 0.12;
     return found;
+  }
+
+  // Reads every eye, mouth or hair style in the file: the original (id "fish-eye") first when there is one,
+  // then the extras ("fish-eye-..."). Each is a list of paths: filled, or drawn as a line when the path has a stroke-width.
+  function readParts(doc, name, box, hangsFromEdge) {
+    const nodes = [doc.querySelector('[id="fish-' + name + '"]')];
+    const extras = doc.querySelectorAll('[id^="fish-' + name + '-"]');
+    for (let i = 0; i < extras.length; i++) nodes.push(extras[i]);
+    const parts = [];
+    for (let n = 0; n < nodes.length; n++) {
+      const node = nodes[n];
+      const paths = !node ? [] : node.localName === "path" ? [node] : node.querySelectorAll("path");
+      const items = [];
+      let every = [];
+      for (let p = 0; p < paths.length; p++) {
+        const steps = readPath(paths[p].getAttribute("d") || "", box);
+        if (!steps) {
+          items.length = 0;
+          break;
+        }
+        items.push({ steps: steps, line: (parseFloat(paths[p].getAttribute("stroke-width")) || 0) / box[2] });
+        every = every.concat(steps);
+      }
+      if (!items.length) continue; // a missing or broken one is left out
+      // The point this part turns and grows around: an eye its centre, a mouth where it meets the face, hair its root.
+      const pivot = (node.getAttribute("data-pivot") || "")
+        .trim()
+        .split(/[\s,]+/)
+        .map(parseFloat);
+      const given = pivot.length === 2 && isFinite(pivot[0]) && isFinite(pivot[1]);
+      const reach = boundsOf(every);
+      parts.push({
+        items: items,
+        pivotX: given ? (pivot[0] - box[0]) / box[2] : hangsFromEdge ? reach.maxX : (reach.minX + reach.maxX) / 2,
+        pivotY: given ? (pivot[1] - box[1]) / box[3] : (reach.minY + reach.maxY) / 2,
+      });
+    }
+    return parts;
+  }
+
+  // The farthest point of the outline towards the nose, at height v.
+  function edgeAt(steps, v) {
+    let edge = -Infinity;
+    for (let i = 0; i < steps.length; i++) {
+      for (let k = 1; k < steps[i].length; k += 2) {
+        if (Math.abs(steps[i][k + 1] - v) < 0.03 && steps[i][k] > edge) edge = steps[i][k];
+      }
+    }
+    return edge;
   }
 
   // ---- Looks ----------------------------------------------------------------
@@ -248,14 +310,23 @@
       slant: spread(LOOK_SLANT),
       brow: spread(LOOK_BROW),
       belly: spread(LOOK_BELLY),
+      eyePick: Math.random(), // which of the eyes in the file
       eyeSize: 1 + spread(LOOK_EYE_SIZE),
       eyeTurn: spread(LOOK_EYE_TURN),
       eyeX: spread(LOOK_EYE_SHIFT),
       eyeY: spread(LOOK_EYE_SHIFT),
+      mouthPick: Math.random(), // which of the mouths in the file
       mouthSize: 1 + spread(LOOK_MOUTH_SIZE),
       mouthTurn: spread(LOOK_MOUTH_TURN),
       mouthY: spread(LOOK_MOUTH_SHIFT),
+      hairPick: Math.random() < LOOK_BALD ? -1 : Math.random(), // which hair style, or none
+      hairSize: 1 + spread(LOOK_HAIR_SIZE),
+      hairTurn: spread(LOOK_HAIR_TURN),
     };
+  }
+
+  function pick(parts, share) {
+    return parts[Math.min(parts.length - 1, Math.floor(share * parts.length))];
   }
 
   // Bends the whole head into one fish's shape. u runs from the back (0) to the nose (1), v from top (0) to bottom (1).
@@ -279,21 +350,51 @@
   // ---- Sprites --------------------------------------------------------------
   // Draws one fish's face from the layers, straight from the shapes so every size stays sharp.
   function drawLook(look, lengthPx) {
-    const sprite = document.createElement("canvas");
-    sprite.width = lengthPx;
-    sprite.height = Math.max(1, Math.round(lengthPx * ratio * look.tall));
-    const sctx = sprite.getContext("2d");
-    const aspect = sprite.height / sprite.width;
+    const headHeightPx = Math.max(1, Math.round(lengthPx * ratio * look.tall));
+    const aspect = headHeightPx / lengthPx;
     const shape = function (u, v) {
       return bend(look, u, v);
     };
-    // fit the bent head exactly into the sprite, whatever its shape
-    const fit = boundsOf(shapes.outline, shape);
-    const scaleX = (sprite.width - 2) / (fit.maxX - fit.minX);
-    const scaleY = (sprite.height - 2) / (fit.maxY - fit.minY);
+    const eye = pick(shapes.eyes, look.eyePick);
+    const mouth = pick(shapes.mouths, look.mouthPick);
+    const hair = look.hairPick >= 0 && shapes.hairs.length ? pick(shapes.hairs, look.hairPick) : null;
+    const moveEye = function (u, v) {
+      return turnAbout(u, v, eye.pivotX, eye.pivotY, look.eyeSize, look.eyeTurn, look.eyeX, look.eyeY, aspect);
+    };
+    const moveMouth = function (u, v) {
+      // moved up or down, the mouth slides along the edge of the face
+      return turnAbout(u, v, mouth.pivotX, mouth.pivotY, look.mouthSize, look.mouthTurn, look.mouthY * shapes.edgeSlope, look.mouthY, aspect);
+    };
+    const moveHair = function (u, v) {
+      return turnAbout(u, v, hair.pivotX, hair.pivotY, look.hairSize, look.hairTurn, 0, 0, aspect);
+    };
 
-    function fill(steps, alpha, move) {
-      sctx.globalAlpha = alpha;
+    // The bent head always fills the fish's own size. Hair may reach beyond the head, so the sprite grows to hold it.
+    const head = boundsOf(shapes.outline, shape);
+    const scaleX = (lengthPx - 2) / (head.maxX - head.minX);
+    const scaleY = (headHeightPx - 2) / (head.maxY - head.minY);
+    const fit = { minX: head.minX, minY: head.minY, maxX: head.maxX, maxY: head.maxY };
+    let pad = 1;
+    if (hair) {
+      const hairShape = function (u, v) {
+        const moved = moveHair(u, v);
+        return shape(moved[0], moved[1]);
+      };
+      for (let i = 0; i < hair.items.length; i++) {
+        const reach = boundsOf(hair.items[i].steps, hairShape);
+        fit.minX = Math.min(fit.minX, reach.minX);
+        fit.minY = Math.min(fit.minY, reach.minY);
+        fit.maxX = Math.max(fit.maxX, reach.maxX);
+        fit.maxY = Math.max(fit.maxY, reach.maxY);
+        pad = Math.max(pad, 1 + Math.ceil((hair.items[i].line * scaleX) / 2));
+      }
+    }
+    const sprite = document.createElement("canvas");
+    sprite.width = Math.ceil((fit.maxX - fit.minX) * scaleX) + 2 * pad;
+    sprite.height = Math.ceil((fit.maxY - fit.minY) * scaleY) + 2 * pad;
+    const sctx = sprite.getContext("2d");
+
+    function trace(steps, move) {
       sctx.beginPath();
       for (let i = 0; i < steps.length; i++) {
         const step = steps[i];
@@ -305,24 +406,40 @@
         for (let k = 1; k < step.length; k += 2) {
           const moved = move ? move(step[k], step[k + 1]) : [step[k], step[k + 1]];
           const bent = shape(moved[0], moved[1]);
-          xy.push(1 + (bent[0] - fit.minX) * scaleX, 1 + (bent[1] - fit.minY) * scaleY);
+          xy.push(pad + (bent[0] - fit.minX) * scaleX, pad + (bent[1] - fit.minY) * scaleY);
         }
         if (step[0] === "M") sctx.moveTo(xy[0], xy[1]);
         else if (step[0] === "L") sctx.lineTo(xy[0], xy[1]);
         else sctx.bezierCurveTo(xy[0], xy[1], xy[2], xy[3], xy[4], xy[5]);
       }
-      sctx.fill();
+    }
+
+    // An eye, a mouth or hair: each of its paths is filled, or drawn as a line of the marker's width.
+    function paint(part, move) {
+      for (let i = 0; i < part.items.length; i++) {
+        trace(part.items[i].steps, move);
+        if (part.items[i].line > 0) {
+          sctx.lineWidth = Math.max(0.75, part.items[i].line * scaleX);
+          sctx.stroke();
+        } else {
+          sctx.fill();
+        }
+      }
     }
 
     sctx.fillStyle = color;
-    fill(shapes.body, shapes.bodyAlpha, null);
-    fill(shapes.outline, 1, null);
-    fill(shapes.eye, 1, function (u, v) {
-      return turnAbout(u, v, shapes.eyeX, shapes.eyeY, look.eyeSize, look.eyeTurn, look.eyeX, look.eyeY, aspect);
-    });
-    fill(shapes.mouth, 1, function (u, v) {
-      return turnAbout(u, v, shapes.mouthX, shapes.mouthY, look.mouthSize, look.mouthTurn, 0, look.mouthY, aspect);
-    });
+    sctx.strokeStyle = color;
+    sctx.lineCap = "round";
+    sctx.lineJoin = "round";
+    sctx.globalAlpha = shapes.bodyAlpha;
+    trace(shapes.body, null);
+    sctx.fill();
+    sctx.globalAlpha = 1;
+    trace(shapes.outline, null);
+    sctx.fill();
+    if (hair) paint(hair, moveHair);
+    paint(eye, moveEye);
+    paint(mouth, moveMouth);
     return sprite;
   }
 
@@ -659,6 +776,8 @@
     const effort = running ? clamp(0.5 + (0.5 * f.speed) / f.baseSpeed, 0.5, MAX_EFFORT) : 0;
     const swing = WAVE_X * effort * Math.sin(f.phase);
     const strips = Math.max(6, Math.round(lengthPx / 4));
+    if (scratch.width < boxW) scratch.width = boxW; // a sprite with long hair can be bigger than planned
+    if (scratch.height < boxH) scratch.height = boxH;
     scratchCtx.clearRect(0, 0, boxW, boxH);
     let left = padX + Math.round(swing * lengthPx);
     for (let i = 0; i < strips; i++) {
@@ -678,7 +797,7 @@
     ctx.scale(face * f.scale, f.scale);
     ctx.rotate(f.tilt);
     ctx.globalAlpha = Math.min(1, f.alpha * alphaScale);
-    ctx.drawImage(scratch, 0, 0, boxW, boxH, -f.length / 2 - padX / dpr, -boxH / dpr / 2, boxW / dpr, boxH / dpr);
+    ctx.drawImage(scratch, 0, 0, boxW, boxH, -(lengthPx / dpr) / 2 - padX / dpr, -boxH / dpr / 2, boxW / dpr, boxH / dpr);
     ctx.restore();
   }
 
