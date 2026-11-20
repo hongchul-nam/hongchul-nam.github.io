@@ -22,7 +22,7 @@
   <marker id="arw" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
     <path d="M0,0 L6,3 L0,6 Z" fill="#2a5f96"/>
   </marker>
-  <clipPath id="rc"><rect x="0" y="0" width="400" height="400" rx="30"/></clipPath>
+  <clipPath id="rc"><rect x="0" y="0" width="400" height="400" rx="0"/></clipPath>
 </defs>
 <g clip-path="url(#rc)">
   <rect x="0" y="0" width="400" height="400" fill="url(#bg)"/>
@@ -80,5 +80,4 @@
   <rect x="236" y="360" width="15" height="15" rx="3" fill="url(#data)"/>
   <text x="258" y="372" font-family="Georgia,serif" font-size="13" fill="#16233b" opacity="0.78">cache blocks</text>
 </g>
-<rect x="1" y="1" width="398" height="398" rx="29" fill="none" stroke="#16233b" stroke-opacity="0.10" stroke-width="2"/>
 </svg>
