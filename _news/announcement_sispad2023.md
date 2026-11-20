@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-FlowSim is accepted to SISPAD 2023!
+[FlowSim](https://ieeexplore.ieee.org/document/10319551) is accepted to SISPAD 2023 as an oral presentation!

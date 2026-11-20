@@ -689,18 +689,51 @@ footer.sticky-bottom {
     margin-top: 0;
 
     li {
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
 
-      .preview {
+      .preview-col {
+        margin-bottom: 0.75rem;
+      }
+
+      .preview-col + div {
+        min-width: 0;
+      }
+
+      .preview-box {
+        width: 170px;
+        max-width: 100%;
+        aspect-ratio: 1 / 1;
+        overflow: hidden;
+        background-color: #ffffff;
+        border: 1px solid var(--global-divider-color);
+        border-radius: 8px;
+
+        figure,
+        picture {
+          display: block;
+          width: 100%;
+          height: 100%;
+          margin: 0;
+        }
+
+        img.preview {
+          display: block;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
       }
 
       .abbr {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.3rem;
+        line-height: 1;
 
         abbr {
           display: inline-block;
           background-color: var(--global-theme-color);
-          margin-bottom: 0.5rem;
+          margin-bottom: 0;
+          padding: 0.35em 0.7em;
+          color: white;
 
           a {
             color: white;

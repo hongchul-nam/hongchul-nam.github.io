@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-FuncAnoDe is accepted to SISPAD 2024!
+[FuncAnoDe](https://ieeexplore.ieee.org/document/10733289) is accepted to SISPAD 2024 as an oral presentation!

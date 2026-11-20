@@ -3,7 +3,7 @@ layout: post
 title: Sensor Fusion for VOC Sensor
 date: 2025-07-16 12:00:00
 hidden: true
-description: A detailed derivation of MPPI
+description: Sensor fusion for MOS gas sensor arrays as a Bayesian inverse problem, with linear-Gaussian and neural network models
 tags: [Bayesian]
 categories: [control]
 ---
