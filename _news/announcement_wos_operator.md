@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Operator Learning Using Weak Supervision from Walk-on-Spheres is out on arXiv!
+[Operator Learning Using Weak Supervision from Walk-on-Spheres](https://arxiv.org/abs/2603.01193) is out on arXiv!

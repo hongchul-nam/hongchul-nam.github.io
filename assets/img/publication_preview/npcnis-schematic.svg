@@ -18,7 +18,7 @@
   <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
     <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#16233b" flood-opacity="0.18"/>
   </filter>
-  <clipPath id="rc"><rect x="0" y="0" width="400" height="400" rx="30"/></clipPath>
+  <clipPath id="rc"><rect x="0" y="0" width="400" height="400" rx="0"/></clipPath>
 </defs>
 <g clip-path="url(#rc)">
   <rect x="0" y="0" width="400" height="400" fill="url(#bg)"/>
@@ -177,5 +177,4 @@
 <circle cx="373" cy="351" r="3.2" fill="#ef7a5a" opacity="0.95"/>
 <circle cx="355" cy="348" r="3.2" fill="#ef7a5a" opacity="0.95"/>
 </g>
-<rect x="1" y="1" width="398" height="398" rx="29" fill="none" stroke="#16233b" stroke-opacity="0.10" stroke-width="2"/>
 </svg>

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#f7fafc"/><stop offset="1" stop-color="#eef3f8"/>
+  </linearGradient>
+  <linearGradient id="blue" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#3b82c4"/><stop offset="1" stop-color="#2a5f96"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+    <stop offset="0" stop-color="#f2c14e" stop-opacity="0.85"/>
+    <stop offset="0.55" stop-color="#f2c14e" stop-opacity="0.28"/>
+    <stop offset="1" stop-color="#f2c14e" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="alarm" cx="0.5" cy="0.5" r="0.5">
+    <stop offset="0" stop-color="#d9433f" stop-opacity="0.30"/>
+    <stop offset="1" stop-color="#d9433f" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+    <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#16233b" flood-opacity="0.18"/>
+  </filter>
+  <marker id="arr" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" fill="#16233b"/>
+  </marker>
+  <marker id="arrT" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" fill="#28b0a0"/>
+  </marker>
+</defs>
+<rect x="0" y="0" width="400" height="400" fill="url(#bg)"/>
+<rect x="28" y="118" width="104" height="48" rx="6" fill="#c9d6e6"/>
+<rect x="28" y="118" width="32" height="22" rx="4" fill="#28b0a0"/>
+<rect x="100" y="118" width="32" height="22" rx="4" fill="#28b0a0"/>
+<rect x="58" y="111" width="44" height="7" fill="#f2c14e"/>
+<rect x="58" y="82" width="44" height="29" rx="4" fill="#16233b"/>
+<text x="80" y="192" font-family="Georgia,serif" font-size="15" fill="#5b6b82" text-anchor="middle" >planar FET</text>
+<line x1="140" y1="122" x2="158" y2="122" stroke="#16233b" stroke-width="3" marker-end="url(#arr)"/>
+<rect x="166" y="72" width="68" height="98" rx="14" fill="url(#blue)" filter="url(#sh)"/>
+<line x1="181" y1="94" x2="219" y2="94" stroke="#f2c14e" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="181" y1="112" x2="219" y2="112" stroke="#f2c14e" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="181" y1="130" x2="219" y2="130" stroke="#f2c14e" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="181" y1="148" x2="219" y2="148" stroke="#f2c14e" stroke-width="3.5" stroke-linecap="round"/>
+<text x="200" y="192" font-family="Georgia,serif" font-size="15" fill="#5b6b82" text-anchor="middle" >pre-trained</text>
+<line x1="242" y1="122" x2="260" y2="122" stroke="#16233b" stroke-width="3" marker-end="url(#arr)"/>
+<rect x="270" y="156" width="100" height="14" rx="4" fill="#c9d6e6"/>
+<rect x="284" y="60" width="72" height="100" rx="8" fill="#16233b"/>
+<rect x="296" y="72" width="48" height="14" rx="5" fill="#28b0a0" stroke="#f2c14e" stroke-width="3"/>
+<rect x="296" y="100" width="48" height="14" rx="5" fill="#28b0a0" stroke="#f2c14e" stroke-width="3"/>
+<rect x="296" y="128" width="48" height="14" rx="5" fill="#28b0a0" stroke="#f2c14e" stroke-width="3"/>
+<text x="320" y="192" font-family="Georgia,serif" font-size="15" fill="#5b6b82" text-anchor="middle" >nanosheet GAA</text>
+<line x1="70" y1="356" x2="352" y2="356" stroke="#16233b" stroke-width="2.2" stroke-linecap="round"/>
+<line x1="70" y1="356" x2="70" y2="230" stroke="#16233b" stroke-width="2.2" stroke-linecap="round"/>
+<text x="356" y="377" font-family="Georgia,serif" font-size="17" fill="#16233b" text-anchor="end" font-style="italic">V</text>
+<text x="53" y="244" font-family="Georgia,serif" font-size="17" fill="#16233b" text-anchor="middle" font-style="italic">I</text>
+<path d="M 70.0,354.0 L 74.5,346.9 L 79.0,339.9 L 83.5,333.0 L 88.0,326.3 L 92.5,319.8 L 97.0,313.5 L 101.5,307.6 L 106.0,302.0 L 110.5,296.8 L 115.0,292.0 L 119.5,287.5 L 124.0,283.3 L 128.5,279.6 L 133.0,276.1 L 137.5,273.0 L 142.0,270.2 L 146.5,267.6 L 151.0,265.4 L 155.5,263.3 L 160.0,261.5 L 164.5,259.8 L 169.0,258.3 L 173.5,257.0 L 178.0,255.8 L 182.5,254.7 L 187.0,253.8 L 191.5,252.9 L 196.0,252.1 L 200.5,251.4 L 205.0,250.7 L 209.5,250.2 L 214.0,249.6 L 218.5,249.1 L 223.0,248.7 L 227.5,248.3 L 232.0,247.9 L 236.5,247.5 L 241.0,247.2 L 245.5,246.8 L 250.0,246.5 L 254.5,246.2 L 259.0,246.0 L 263.5,245.7 L 268.0,245.4 L 272.5,245.2 L 277.0,245.0 L 281.5,244.7 L 286.0,244.5 L 290.5,244.3 L 295.0,244.1 L 299.5,243.9 L 304.0,243.6 L 308.5,243.4 L 313.0,243.2 L 317.5,243.0 L 322.0,242.8 L 326.5,242.6 L 331.0,242.4 L 335.5,242.2 L 340.0,242.1" fill="none" stroke="#3b82c4" stroke-width="3.2" stroke-opacity="1.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="107.8" cy="299.9" r="5.2" fill="#f2c14e" stroke="#fff" stroke-width="1.8"/>
+<circle cx="183.4" cy="254.5" r="5.2" fill="#f2c14e" stroke="#fff" stroke-width="1.8"/>
+<circle cx="302.2" cy="243.7" r="5.2" fill="#f2c14e" stroke="#fff" stroke-width="1.8"/>
+<path d="M 70.0,354.0 L 74.5,349.2 L 79.0,344.5 L 83.5,339.8 L 88.0,335.2 L 92.5,330.8 L 97.0,326.5 L 101.5,322.5 L 106.0,318.7 L 110.5,315.2 L 115.0,311.9 L 119.5,308.8 L 124.0,306.0 L 128.5,303.5 L 133.0,301.2 L 137.5,299.0 L 142.0,297.1 L 146.5,295.4 L 151.0,293.8 L 155.5,292.5 L 160.0,291.2 L 164.5,290.1 L 169.0,289.1 L 173.5,288.2 L 178.0,287.4 L 182.5,286.6 L 187.0,286.0 L 191.5,285.4 L 196.0,284.9 L 200.5,284.4 L 205.0,283.9 L 209.5,283.5 L 214.0,283.2 L 218.5,282.8 L 223.0,282.5 L 227.5,282.2 L 232.0,282.0 L 236.5,281.7 L 241.0,281.5 L 245.5,281.3 L 250.0,281.1 L 254.5,280.9 L 259.0,280.7 L 263.5,280.5 L 268.0,280.3 L 272.5,280.2 L 277.0,280.0 L 281.5,279.9 L 286.0,279.7 L 290.5,279.5 L 295.0,279.4 L 299.5,279.3 L 304.0,279.1 L 308.5,279.0 L 313.0,278.8 L 317.5,278.7 L 322.0,278.6 L 326.5,278.4 L 331.0,278.3 L 335.5,278.2 L 340.0,278.0" fill="none" stroke="#28b0a0" stroke-width="3.2" stroke-opacity="1.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="107.8" cy="317.3" r="5.2" fill="#f2c14e" stroke="#fff" stroke-width="1.8"/>
+<circle cx="183.4" cy="286.5" r="5.2" fill="#f2c14e" stroke="#fff" stroke-width="1.8"/>
+<circle cx="302.2" cy="279.2" r="5.2" fill="#f2c14e" stroke="#fff" stroke-width="1.8"/>
+<path d="M 70.0,354.0 L 74.5,351.2 L 79.0,348.5 L 83.5,345.8 L 88.0,343.1 L 92.5,340.6 L 97.0,338.1 L 101.5,335.8 L 106.0,333.6 L 110.5,331.5 L 115.0,329.6 L 119.5,327.9 L 124.0,326.2 L 128.5,324.8 L 133.0,323.4 L 137.5,322.2 L 142.0,321.1 L 146.5,320.1 L 151.0,319.2 L 155.5,318.4 L 160.0,317.6 L 164.5,317.0 L 169.0,316.4 L 173.5,315.9 L 178.0,315.4 L 182.5,315.0 L 187.0,314.6 L 191.5,314.3 L 196.0,314.0 L 200.5,313.7 L 205.0,313.4 L 209.5,313.2 L 214.0,313.0 L 218.5,312.8 L 223.0,312.6 L 227.5,312.5 L 232.0,312.3 L 236.5,312.2 L 241.0,312.0 L 245.5,311.9 L 250.0,311.8 L 254.5,311.7 L 259.0,311.6 L 263.5,311.5 L 268.0,311.4 L 272.5,311.3 L 277.0,311.2 L 281.5,311.1 L 286.0,311.0 L 290.5,310.9 L 295.0,310.8 L 299.5,310.7 L 304.0,310.6 L 308.5,310.6 L 313.0,310.5 L 317.5,310.4 L 322.0,310.3 L 326.5,310.2 L 331.0,310.2 L 335.5,310.1 L 340.0,310.0" fill="none" stroke="#ef7a5a" stroke-width="3.2" stroke-opacity="1.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="107.8" cy="332.7" r="5.2" fill="#f2c14e" stroke="#fff" stroke-width="1.8"/>
+<circle cx="183.4" cy="314.9" r="5.2" fill="#f2c14e" stroke="#fff" stroke-width="1.8"/>
+<circle cx="302.2" cy="310.7" r="5.2" fill="#f2c14e" stroke="#fff" stroke-width="1.8"/>
+<path d="M 70.0,354.0 L 74.5,352.7 L 79.0,351.5 L 83.5,350.3 L 88.0,349.1 L 92.5,347.9 L 97.0,346.8 L 101.5,345.7 L 106.0,344.7 L 110.5,343.8 L 115.0,342.9 L 119.5,342.1 L 124.0,341.4 L 128.5,340.7 L 133.0,340.1 L 137.5,339.5 L 142.0,339.0 L 146.5,338.6 L 151.0,338.2 L 155.5,337.8 L 160.0,337.5 L 164.5,337.2 L 169.0,336.9 L 173.5,336.7 L 178.0,336.5 L 182.5,336.3 L 187.0,336.1 L 191.5,335.9 L 196.0,335.8 L 200.5,335.7 L 205.0,335.6 L 209.5,335.5 L 214.0,335.4 L 218.5,335.3 L 223.0,335.2 L 227.5,335.1 L 232.0,335.0 L 236.5,335.0 L 241.0,334.9 L 245.5,334.9 L 250.0,334.8 L 254.5,334.8 L 259.0,334.7 L 263.5,334.7 L 268.0,334.6 L 272.5,334.6 L 277.0,334.5 L 281.5,334.5 L 286.0,334.4 L 290.5,334.4 L 295.0,334.4 L 299.5,334.3 L 304.0,334.3 L 308.5,334.3 L 313.0,334.2 L 317.5,334.2 L 322.0,334.1 L 326.5,334.1 L 331.0,334.1 L 335.5,334.0 L 340.0,334.0" fill="none" stroke="#8ea3bd" stroke-width="3.2" stroke-opacity="1.0" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="107.8" cy="344.3" r="5.2" fill="#f2c14e" stroke="#fff" stroke-width="1.8"/>
+<circle cx="183.4" cy="336.2" r="5.2" fill="#f2c14e" stroke="#fff" stroke-width="1.8"/>
+<circle cx="302.2" cy="334.3" r="5.2" fill="#f2c14e" stroke="#fff" stroke-width="1.8"/>
+<text x="212" y="388" font-family="Georgia,serif" font-size="14" fill="#5b6b82" text-anchor="middle" >compact model from few data points</text>
+</svg>

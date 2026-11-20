@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Making Visible, Making Invisible: How an AI Scribe Reshapes Documentation Authority in Social Work is accepted to the Trustworthy AI for Good (AI4GOOD) Workshop @ ICML 2026!
+[Making Visible, Making Invisible: How an AI Scribe Reshapes Documentation Authority in Social Work](https://openreview.net/forum?id=i9LSnW2F8o) is accepted to the Trustworthy AI for Good (AI4GOOD) Workshop @ ICML 2026!

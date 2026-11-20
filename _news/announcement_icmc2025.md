@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-FuncFlow and pretrained model for DTCO are accepted to ICMC 2025!
+[FuncFlow](https://ieeexplore.ieee.org/document/11102320/) and our [large pre-trained model for DTCO](https://ieeexplore.ieee.org/document/11102345/) are accepted to ICMC 2025 as oral presentations!
