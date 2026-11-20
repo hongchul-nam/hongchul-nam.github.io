@@ -1,8 +1,9 @@
 {% unless site.enable_fish_background == false or page.fish_background == false %}
-  <!-- Fish swimming in the page background; they react to the cursor -->
+  <!-- Fish swimming in the page background; they react to the cursor, and visitors can play as a big fish -->
   <script
     defer
     src="{{ '/assets/js/fish-background.js' | relative_url | bust_file_cache }}"
     data-sprite="{{ '/assets/img/fish.svg' | relative_url | bust_file_cache }}"
+    data-game="{% if site.enable_fish_game == false %}false{% else %}true{% endif %}"
   ></script>
 {% endunless %}
