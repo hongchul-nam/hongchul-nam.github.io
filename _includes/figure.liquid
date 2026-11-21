@@ -1,4 +1,6 @@
 {% assign img_path = include.path | remove: '.jpg' | remove: '.jpeg' | remove: '.png' | remove: '.tiff' | remove: '.gif' %}
+{% comment %} Smaller copies only exist for the image types listed under imagemagick.input_formats, so not for SVGs {% endcomment %}
+{% assign img_ext = include.path | split: '.' | last | downcase | prepend: '.' %}
 
 <figure
   {% if include.slot %}
@@ -11,7 +13,7 @@
       See https://www.debugbear.com/blog/responsive-images#w-descriptors-and-the-sizes-attribute and
       https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images for info on defining 'sizes' for responsive images
     -->
-    {% if site.imagemagick.enabled %}
+    {% if site.imagemagick.enabled and site.imagemagick.input_formats contains img_ext %}
       <source
         class="responsive-img-srcset"
         srcset="{% for i in site.imagemagick.widths %}{{ img_path | relative_url }}-{{ i }}.webp {{i}}w,{% endfor %}"
